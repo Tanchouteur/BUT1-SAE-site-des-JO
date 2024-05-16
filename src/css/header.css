@@ -73,7 +73,7 @@ header {
 a{
     text-decoration: none;
 }
-h2.connected{
+h2.navbar{
     background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
     color: #fafafa;
     border: none;

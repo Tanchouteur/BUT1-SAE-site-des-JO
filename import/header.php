@@ -9,7 +9,7 @@ session_start();
 <nav class="navbar">
     <div class="container-nav">
         <div class="brand">
-            <a href="#">Paris 2024</a>
+            <h2 class="navbar">Paris 2024</h2>
         </div>
 
         <div class="nav-links">
@@ -24,7 +24,7 @@ session_start();
             echo '<a href="src/html/singin.php" class="btn-login">Connexion</a>
                     <a href="src/html/singup.html" class="btn-signup">Inscription</a>';
             }elseif(isset($_SESSION['email'])){
-                echo "<h2 class='connected'>Bonjour " . $_SESSION['nom'] . "</h2>
+                echo "<a href='src/PHP/pagePerso.php' class='btn-login'>Profile</a>
                         <a href='src/PHP/deconnect.php' class='btn-signup'>Deconnexion</a>";
             }
 

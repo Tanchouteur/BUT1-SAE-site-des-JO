@@ -11,11 +11,11 @@
 <?php require_once "import/header.php"; ?>
 
 <body>
-<div class="container">
+<div class="container" id="Acceuil">
     div
 </div>
 
-<script src="script.js"></script>
+
 </body>
 
 <?php require_once "import/footer.php"; ?>
