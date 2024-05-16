@@ -14,7 +14,7 @@ session_start();
 
         <div class="nav-links">
             <a href="#">Accueil</a>
-            <a href="src/PHP/Event/gestionEvent">Événements</a>
+            <a href="src/PHP/Event/gestionEvent.php">Événements</a>
         </div>
 
         <div class="auth-buttons">

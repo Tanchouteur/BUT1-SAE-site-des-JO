@@ -9,29 +9,30 @@ header {
     justify-content: center;
     justify-items: center;
     box-shadow: 0px 0px 20px black;
+    width: 100%;
 }
 
 .navbar {
     height: 95%;
-    width: 95%;
-    align-self: center;
+    width: 100%;
+    /*align-self: center;
     align-items: center;
     align-content: center;
     justify-content: center;
     justify-items: center;
-    display: inline-flex;
+    display: inline-flex;*/
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     max-width: 1200px;
 
 }
 .container-nav{
-    display: flex;
+    display: inline-block;
     flex-direction: row;
-    width: 90%;
+    width: 100%;
     align-self: center;
     align-items: center;
     align-content: center;
@@ -73,12 +74,19 @@ header {
 a{
     text-decoration: none;
 }
-h2.navbar{
+h2.navbar,h3.navbar{
     background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
     color: #fafafa;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 10px;
     margin: 5px;
     border-radius: 10px; /* Coins arrondis */
     font-size: 2vh;
+
+}
+h2.active{
+    font-weight: bold;
+}
+a{
+    color: white;
 }
