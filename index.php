@@ -12,7 +12,7 @@
 
 <body>
 <div class="container">
-    <!-- Contenu de la page -->
+    div
 </div>
 
 <script src="script.js"></script>

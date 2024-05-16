@@ -1,55 +1,75 @@
-/* Style de la barre de navigation */
+/* Style de l'en-tête et de la barre de navigation */
+header {
+    background: linear-gradient(to bottom right, rgba(211, 208, 208, 0.1), rgba(133, 109, 133, 0.5)); /* Dégradé transparent */
+    padding: 20px 0;
+    font-family: Arial;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    box-shadow: 0px 0px 20px black;
+}
+
 .navbar {
-    background-color: rgba(255, 255, 255, 0.1); /* Couleur de fond transparente */
-    backdrop-filter: blur(10px); /* Effet flou en arrière-plan */
-    padding: 15px 0;
+    height: 95%;
+    width: 95%;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    display: inline-flex;
 }
 
+.container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
 
+}
+.container-nav{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+}
+.brand{
 
-.brand a {
-    color: #fff;
-    font-size: 1.5rem;
-    text-decoration: none;
+}
+.nav-links{
+
+}
+.auth-buttons{
+    display: inline-flex;
+
 }
 
-.nav-links {
-    list-style: none;
-    float: left;
-}
-
-.nav-links li {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-.nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px; /* Ajout de marge interne pour les liens */
-    border-radius: 20px; /* Coins arrondis */
-    transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
-}
-
-.nav-links li a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond transparente au survol */
-}
-
-.auth-buttons {
-    float: right;
-}
-
-.btn-login, .btn-signup {
-    background-color: rgba(255, 255, 255, 0.1); /* Couleur de fond transparente */
-    color: #fff;
+.btn-login, .btn-signup, a{
+    background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
+    color: #fafafa;
     border: none;
     padding: 10px 20px;
-    margin-left: 10px;
+    margin: 5px;
     cursor: pointer;
-    border-radius: 20px; /* Coins arrondis */
-    transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
+    border-radius: 10px; /* Coins arrondis */
+    font-size: 2vh;
+
+    backdrop-filter: blur(100px);
+    transition: 0.2s;
 }
 
-.btn-login:hover, .btn-signup:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond transparente au survol */
+.btn-login:hover, .btn-signup:hover, a:hover{
+    backdrop-filter: blur(100px);
+    font-size: 2.3vh;
+    background-color: rgba(0, 0, 255,0.8);
+    margin: 2px;
+}
+
+a{
+    text-decoration: none;
 }

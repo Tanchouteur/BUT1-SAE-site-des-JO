@@ -5,10 +5,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: #151515;
 }
 .container {
     width: 90%;
     margin: 0 auto;
     max-width: 1200px;
     overflow: hidden;
+}
+a{
+    color: #151515;
 }
