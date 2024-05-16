@@ -4,6 +4,14 @@ require_once "../../../import/BDD.php";
 
 $email = $_SESSION['email'];
 
+$sql = "SELECT idRole FROM Users where email = '$email'";
+$result = mysqli_query($db,$sql);
+$result = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+if ($result['idRole'] <2){
+    header('location: ../../../index.php');
+}
+
 $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent,roleEvent,createurEvent,dateEvent FROM Event";
 $result = mysqli_query($db,$sql);
 
@@ -33,7 +41,7 @@ $result = mysqli_query($db,$sql);
 
             <div class="auth-buttons">
 
-                <?php echo "<a href='deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php echo "<a href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
 
             </div>
         </div>

@@ -1,3 +1,13 @@
+<?php
+
+require_once "import/BDD.php";
+
+
+$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent,roleEvent,createurEvent,dateEvent FROM Event ORDER BY dateEvent ASC ";
+$resultEvent = mysqli_query($db,$sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,9 +22,28 @@
 
 <body>
 <div class="container" id="Acceuil">
-    div
+
 </div>
 
+<div class="GestionEvent">
+    <h2>Liste des évenement</h2>
+    <table>
+        <thead>
+        <tr><th>Non Event</th><th>Lieux</th><th>Description</th><th>Type</th><th>Role</th><th>Créateur de l'évenement</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($resultEvent as $key => $value) {
+            echo "<tr>";
+            foreach ($value as $key2 => $value2) {
+                echo "<td> $value2 </td>";
+            }
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
 
 </body>
 
