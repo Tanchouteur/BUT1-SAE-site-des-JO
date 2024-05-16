@@ -1,0 +1,55 @@
+/* Style de la barre de navigation */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.1); /* Couleur de fond transparente */
+    backdrop-filter: blur(10px); /* Effet flou en arrière-plan */
+    padding: 15px 0;
+}
+
+
+
+.brand a {
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    float: left;
+}
+
+.nav-links li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px; /* Ajout de marge interne pour les liens */
+    border-radius: 20px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
+}
+
+.nav-links li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond transparente au survol */
+}
+
+.auth-buttons {
+    float: right;
+}
+
+.btn-login, .btn-signup {
+    background-color: rgba(255, 255, 255, 0.1); /* Couleur de fond transparente */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 20px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition pour le changement de couleur au survol */
+}
+
+.btn-login:hover, .btn-signup:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond transparente au survol */
+}
