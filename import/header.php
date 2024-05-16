@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+
+?>
 
 <header>
 <nav class="navbar">
@@ -12,8 +18,21 @@
         </div>
 
         <div class="auth-buttons">
-            <a href="" class="btn-login">Connexion</a>
-            <a href="" class="btn-signup">Inscription</a>
+            <?php
+
+            if (!isset($_SESSION['email'])) {
+            echo '<a href="src/html/singin.php" class="btn-login">Connexion</a>
+                    <a href="src/html/singup.html" class="btn-signup">Inscription</a>';
+            }elseif(isset($_SESSION['email'])){
+                echo "<h2 class='connected'>Bonjour " . $_SESSION['nom'] . "</h2>
+                        <a href='src/PHP/deconnect.php' class='btn-signup'>Deconnexion</a>";
+            }
+
+
+
+            ?>
+
+
         </div>
     </div>
 </nav>

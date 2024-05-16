@@ -73,3 +73,12 @@ header {
 a{
     text-decoration: none;
 }
+h2.connected{
+    background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
+    color: #fafafa;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 10px; /* Coins arrondis */
+    font-size: 2vh;
+}
