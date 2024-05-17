@@ -4,7 +4,7 @@ require_once '../../import/BDD.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Récupère les données du formulaire
     $user = $_POST['username'];
-    $email = $_POST['email'];
+    $email = strtolower($_POST['email']);
     $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
 
