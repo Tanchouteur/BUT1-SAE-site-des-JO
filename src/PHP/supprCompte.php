@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once "../../../import/BDD.php";
+require_once "../../import/BDD.php";
 
 if (isset($_SESSION['email'])){
     $email = $_SESSION['email'];
