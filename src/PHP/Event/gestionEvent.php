@@ -15,6 +15,11 @@ if ($result['idRole'] !=2){
 $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent,roleEvent,createurEvent,dateEvent FROM Event";
 $result = mysqli_query($db,$sql);
 
+if (isset($_GET['status'])&&isset($_GET['msg'])){
+    $status=$_GET['status'];
+    $msg=$_GET['msg'];
+}
+
 ?>
 
 
@@ -31,17 +36,17 @@ $result = mysqli_query($db,$sql);
     <nav class="navbar">
         <div class="container-nav">
             <div class="brand">
-                <h2 class="navbar">Paris 2024</h2>
+                <img class="logo" src="../../img/Paris2024.png">
             </div>
 
             <div class="nav-links">
-                <a href="../../../index.php">Accueil</a>
-                <h2 class="navbar active">Evenement</h2>
+                <a class='btn-navBar' href="../../../index.php">Accueil</a>
+                <a class='btn-navBar' href="#">Evenement</a>
             </div>
 
             <div class="auth-buttons">
 
-                <?php echo "<a href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php echo "<a class='btn-navBar' href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
 
             </div>
         </div>
@@ -53,6 +58,17 @@ $result = mysqli_query($db,$sql);
     </div>
 
     <div class="GestionEvent">
+        <div class="titleBox">
+            <h2 class="EventTitle">Liste des évenement</h2>
+            <?php
+            if (isset($_GET['status'])&&isset($_GET['msg'])) {
+                if ($_GET['status']==0) {
+                    echo "<h2 style='color: #6c2401'> " . $_GET['msg'] . "</h2>";
+                }else if ($_GET['status']==1) {
+                    echo "<h2 style='color: #016c23'> " . $_GET['msg'] . "</h2>";
+                }
+            }?>
+        </div>
         <table>
             <thead>
             <tr><th>Non Event</th><th>Lieux</th><th>Description</th><th>Type</th><th>Role</th><th>Créateur de l'évenement</th><th>Date</th></tr>
@@ -63,7 +79,7 @@ $result = mysqli_query($db,$sql);
                 echo "<tr>";
                 foreach ($value as $key2 => $value2) {
                     if($key2=='nomEvent'){
-                        echo "<td><a href='modifierEvent.php?event=$value2'>$value2</a></td> ";
+                        echo "<td><a class='btn-ListEvent' href='modifierEvent.php?event=$value2'>$value2</a></td> ";
                     }else{
                         echo "<td> $value2 </td>";
                     }

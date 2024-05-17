@@ -15,11 +15,28 @@ body{
     align-items: center;
 }
 div.GestionEvent{
+    background: #d8d8d8;
     width: 80%;
+    height: 60vh;
     display: flex;
     flex-direction: column;
+    overflow-scrolling: auto;
+    overflow: scroll;
+    overflow-x: hidden;
 
+    margin: 10px;
+    padding: 20px;
+
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
 }
+
+div.titleBox{
+    display: flex;
+    justify-content: space-around;
+}
+
 .container {
     width: 90%;
     margin: 0 auto;
@@ -31,7 +48,8 @@ div.GestionEvent{
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 5px;
+    padding: 15px;
 }
 th, td {
     border-top: 1px solid black;

@@ -4,11 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="../css/connexion.css">
+    <link rel="stylesheet" href="../css/formulaire.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/header.css">
 </head>
+<header>
+    <nav class="navbar">
+        <div class="container-nav">
+            <div class="brand">
+                <img class="logo" src="../img/Paris2024.png">
+            </div>
+
+            <div class="nav-links">
+                <a class='btn-navBar' href="../../index.php">Accueil</a>
+                <a class='btn-navBar' href="../../index.php#">Liste des Événements</a>
+            </div>
+
+            <div class="auth-buttons">
+
+                <a class='btn-navBar' href="singup.php">S'inscrire</a>
+
+            </div>
+        </div>
+    </nav>
+</header>
 <body>
-<div class="container">
-    <div class="form-container"><?php if (isset($_GET['status'])){ echo "<h1 style='color: #004a12'>Inscription " . $_GET['status'] . "</h1>";}?>
+<div class="formulaire">
+    <div class="form-container"><?php
+        if (isset($_GET['status'])&&isset($_GET['msg'])) {
+            if ($_GET['status']==0) {
+                echo "<h1 style='color: #6c2401'> " . $_GET['msg'] . "</h1>";
+            }else if ($_GET['status']==1) {
+                echo "<h1 style='color: #016c23'> " . $_GET['msg'] . "</h1>";
+            }
+        }?>
         <h2>Connexion</h2>
         <form action="../PHP/login.php" method="post">
 

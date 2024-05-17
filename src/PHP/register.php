@@ -39,12 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
 
-            header("location:../html/singin.php?status=reussi");
+            header("location:../html/singin.php?status=1&msg=Inscription Réussi");
         } else {
-            header("location:../html/singup.php?status=Une erreur est survenue");
+            header("location:../html/singup.php?status=0&msg=Une erreur est survenue");
         }
     } else {
-        header("location:../html/singup.php?status=Email deja existant");
+        header("location:../html/singup.php?status=0&msg=Email deja existant");
     }
 }
 

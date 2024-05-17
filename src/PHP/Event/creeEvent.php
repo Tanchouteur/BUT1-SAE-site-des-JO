@@ -30,19 +30,33 @@ if (!empty($_POST)) {
         $roleEvent += 2;
     }
 
+    $sql2 = "select * from Event where nomEvent=?";
+    $stmt2 = $db->prepare($sql2);
+    $stmt2->bind_param("s", $nomEvent);
+    $stmt2->execute();
+    $result = $stmt2->get_result();
+    $row = $result->fetch_assoc();
+
     $sql = "INSERT INTO Event (nomEvent, lieuEvent, descriptionEvent, typeEvent,roleEvent,createurEvent,dateEvent) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $db->prepare($sql);
-
-    if ($stmt) {
-        $stmt->bind_param("ssssiss", $nomEvent, $lieuEvent, $descriptionEvent, $typeEvent, $roleEvent, $createurEvent, $dateEvent);
-        if ($stmt->execute()) {
-            $status = "Événement créé avec succès!";
+    if (!isset($row["nomEvent"])) {
+        if ($stmt) {
+            $stmt->bind_param("ssssiss", $nomEvent, $lieuEvent, $descriptionEvent, $typeEvent, $roleEvent, $createurEvent, $dateEvent);
+            if ($stmt->execute()) {
+                $msg = "Événement créé avec succès!";
+                header("location: gestionEvent.php?status=1&msg=$msg");
+            } else {
+                $msg = "Erreur lors de l'exécution de la requête : " . $stmt->error;
+                header("location: creeEvent.php?status=0&msg=$msg");
+            }
+            $stmt->close();
         } else {
-            $status = "Erreur lors de l'exécution de la requête : " . $stmt->error;
+            $msg = "Erreur lors de la préparation de la requête : " . $db->error;
+            header("location:creeEvent.php?status=0&msg=$msg");
         }
-        $stmt->close();
-    } else {
-        $status = "Erreur lors de la préparation de la requête : " . $db->error;
+    }else{
+        $msg = "Evenement deja existant ";
+        header("location: creeEvent.php?status=0&msg=$msg");
     }
 }
 ?>
@@ -55,22 +69,23 @@ if (!empty($_POST)) {
     <title>Formulaire de Connexion</title>
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/formulaire.css">
 </head>
 <header>
     <nav class="navbar">
         <div class="container-nav">
             <div class="brand">
-                <h2 class="navbar">Paris 2024</h2>
+                <img class="logo" src="../../img/Paris2024.png">
             </div>
 
             <div class="nav-links">
-                <a href="../../../index.php">Accueil</a>
-                <h2 class="navbar active">Evenement</h2>
+                <a class='btn-navBar' href="../../../index.php">Accueil</a>
+                <a class='btn-navBar' href="#">Evenement</a>
             </div>
 
             <div class="auth-buttons">
 
-                <?php echo "<a href='deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php echo "<a class='btn-navBar' href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
 
             </div>
         </div>
@@ -80,7 +95,14 @@ if (!empty($_POST)) {
     <div class="container-GestionEvent">
         <a href="gestionEvent.php">Gestion des evenement</a>
     </div>
-
+    <?php
+    if (isset($_GET['status'])&&isset($_GET['msg'])) {
+        if ($_GET['status']==0) {
+            echo "<h2 style='color: #6c2401'> " . $_GET['msg'] . "</h2>";
+        }else if ($_GET['status']==1) {
+            echo "<h2 style='color: #016c23'> " . $_GET['msg'] . "</h2>";
+        }
+    }?>
     <form action="creeEvent.php" method="post">
 
         <div class="form-group">
@@ -91,12 +113,12 @@ if (!empty($_POST)) {
             <label for="lieuEvent">Lieux de l'évenement :</label>
             <input type="text" id="lieuEvent" name="lieuEvent" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="descriptionEvent">Description : </label>
             <input type="text" id="descriptionEvent" name="descriptionEvent" required>
         </div>
 
-        <div>
+        <div class="form-group">
             <label for="typeEvent">Type d'évenement : </label>
             <select id="typeEvent" name="typeEvent" required >
                 <option value="1">Type 1</option>
@@ -105,7 +127,7 @@ if (!empty($_POST)) {
             </select>
         </div>
 
-        <div>
+        <div class="form-group">
             <label for="roleEvent">Type d'évenement : </label>
             <div>
                 <input type="checkbox" id="spectateur" name="spectateur" value="0"/>
@@ -118,7 +140,7 @@ if (!empty($_POST)) {
             </div>
 
         </div>
-        <div>
+        <div class="form-group">
             <label for="dateEvent">Date de l'évenement : </label>
             <input type="date" id="dateEvent" name="dateEvent"/>
         </div>

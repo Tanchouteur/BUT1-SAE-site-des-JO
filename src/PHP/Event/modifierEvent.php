@@ -55,6 +55,9 @@ $stmt->bind_param("s", $_GET['event']);
 $stmt->execute();
 $result = $stmt->get_result();
 $result = $result->fetch_assoc();
+if (!isset($row["nomEvent"])) {
+    header("location:creeEvent.php?status=0&msg=Evenement n'existe pas");
+}
 ?>
 
 <!DOCTYPE html>
@@ -62,25 +65,26 @@ $result = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de Connexion</title>
+    <title>Modifier Evenement</title>
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/formulaire.css">
 </head>
 <header>
     <nav class="navbar">
         <div class="container-nav">
             <div class="brand">
-                <h2 class="navbar">Paris 2024</h2>
+                <img class="logo" src="../../img/Paris2024.png">
             </div>
 
             <div class="nav-links">
-                <a href="../../../index.php">Accueil</a>
-                <h2 class="navbar active">Evenement</h2>
+                <a class='btn-navBar' href="../../../index.php">Accueil</a>
+                <a class='btn-navBar' href="#">Evenement</a>
             </div>
 
             <div class="auth-buttons">
 
-                <?php echo "<a href='deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php echo "<a class='btn-navBar' href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
 
             </div>
         </div>
@@ -101,12 +105,12 @@ $result = $result->fetch_assoc();
         <label for="lieuEvent">Lieux de l'évenement :</label>
         <input type="text" id="lieuEvent" name="lieuEvent" value="<?php echo $result['lieuEvent'] ?>" required>
     </div>
-    <div>
+    <div class="form-group">
         <label for="descriptionEvent">Description : </label>
         <input type="text" id="descriptionEvent" name="descriptionEvent"  value="<?php echo $result['descriptionEvent'] ?>" required>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="typeEvent">Type d'évenement : </label>
         <select id="typeEvent" name="typeEvent" required >
 
@@ -132,7 +136,7 @@ $result = $result->fetch_assoc();
         </select>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="roleEvent">Type d'évenement : </label>
         <?php
         if ($result['roleEvent'] == 1) {
@@ -168,14 +172,16 @@ $result = $result->fetch_assoc();
         }        ?>
 
     </div>
-    <div>
+    <div class="form-group">
         <label for="dateEvent">Date de l'évenement : </label>
         <input type="date" id="dateEvent" name="dateEvent" value="<?php echo $result['nomEvent'] ?>" required/>
     </div>
 
 
     <button type="submit">Modifier l'évenement</button>
+
 </form>
+<a class="delete" href="supprEvent.php?event=<?php echo $_GET['event']?>">Supprimée l'evenement</a>
 <?php if (!empty($status)) { echo "<p>$status</p>"; } ?>
 </body>
 </html>

@@ -9,7 +9,7 @@ if (!empty($_POST)) {
     $new_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $new_nom = $_POST["nom"];
     $new_age = $_POST["age"];
-    $status = "Le formulaire a été soumis.";
+    $status = "Données Mise à Jour";
     if (isset($_POST['password'])) {
         $sql = "UPDATE Users SET login = ?, email = ?, mdp = ?, age = ? WHERE email = ?";
         $stmt = $db->prepare($sql);
@@ -39,57 +39,62 @@ $result = $result->fetch_assoc();
     <title>Jeux Olympiques 2024</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/formulaire.css">
 </head>
 
 <header>
     <nav class="navbar">
         <div class="container-nav">
             <div class="brand">
-                <h2 class="navbar">Paris 2024</h2>
+                <img class="logo" src="../img/Paris2024.png">
             </div>
 
             <div class="nav-links">
-                <a href="../../index.php">Accueil</a>
-                <a href="../../index.php#">Événements</a>
+                <a class='btn-navBar' href="../../index.php">Accueil</a>
+                <a class='btn-navBar' href="../../index.php#">Liste des Événements</a>
             </div>
 
             <div class="auth-buttons">
 
-                <?php echo "<a href='deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php echo "<a class='btn-navBar' href='deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
 
             </div>
         </div>
     </nav>
 </header>
 <body>
-<h2><?php echo $status;?></h2>
-<form action="pagePerso.php" method="post">
 
-    <div class="form-group">
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" value="<?php echo $result['email'] ?>" required>
-    </div>
-    <div class="form-group">
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password">
-    </div>
-    <div>
-        <label for="nom">Nom : </label>
-        <input type="text" id="nom" name="nom" value="<?php echo $result['login'] ?>" required>
-    </div>
+<h2 class="formH2"><?php echo $status;?></h2>
 
-    <div>
-        <label for="nom">Role : <?php echo $result['nomRole'] ?></label>
-    </div>
+<div class="formulaire">
+    <form action="pagePerso.php" method="post">
 
-    <div>
-        <label for="nom">Age : </label>
-        <input type="number" id="age" name="age" value="<?php echo $result['age'] ?>" >
-    </div>
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" value="<?php echo $result['email'] ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div class="form-group">
+            <label for="nom">Nom : </label>
+            <input type="text" id="nom" name="nom" value="<?php echo $result['login'] ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nom">Role : <?php echo $result['nomRole'] ?></label>
+        </div>
+
+        <div class="form-group">
+            <label for="nom">Age : </label>
+            <input type="number" id="age" name="age" value="<?php echo $result['age'] ?>" >
+        </div>
 
 
-    <button type="submit">S'inscrire</button>
-</form>
+        <button type="submit">S'inscrire</button>
+    </form>
+</div>
 
 </body>
 </html>

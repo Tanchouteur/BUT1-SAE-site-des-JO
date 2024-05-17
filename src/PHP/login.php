@@ -33,13 +33,13 @@ if ($result->num_rows > 0) {
         $_SESSION['nom'] = $row['login'];
         $_SESSION['idRole'] = $row['idRole'];
 
-        header("location:../../index.php?status=sucess");
+        header("location:../../index.php?status=1&msg=succes");
 
     }else{
-        header("location:../html/singin.php?status=Login ou mot de passe incorre ct");
+        header("location:../html/singin.php?status=0&msg=Login ou mot de passe incorrect");
     }
 } else {
-    header("location:../html/singin.php?status=Login ou mot de passe incorrect");
+    header("location:../html/singin.php?status=0&msg=Login ou mot de passe incorrect");
 }
 echo 'cc';
 ?>
