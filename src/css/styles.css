@@ -13,9 +13,7 @@
     max-width: 1200px;
     overflow: hidden;
 }
-a{
-    color: #151515;
-}
+
 
 table {
     border-collapse: collapse;
@@ -29,4 +27,8 @@ th, td {
 }
 th {
     background-color: #f2f2f2;
+}
+a.btn-ListEvent{
+    color: white;
+    margin: 0px;
 }

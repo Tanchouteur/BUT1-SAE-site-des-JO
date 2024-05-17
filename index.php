@@ -3,20 +3,23 @@
 require_once "import/BDD.php";
 session_start();
 
+$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
+$resultEvent = mysqli_query($db, $sql);
 
-$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent,roleEvent,createurEvent,dateEvent FROM Event ORDER BY dateEvent ASC ";
-$resultEvent = mysqli_query($db,$sql);
-
+$tabEvent = [];
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
 
-    $sql = "SELECT emailParticipant, nomEvent FROM ParticipationEvent where emailParticipant=?";
+    $sql = "SELECT emailParticipant, nomEvent FROM ParticipationEvent WHERE emailParticipant = ?";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $resultParticipation = $stmt->get_result();
     $resultParticipation = $resultParticipation->fetch_all();
 
+    foreach ($resultParticipation as $participation) {
+        $tabEvent[] = $participation[1];
+    }
 }
 ?>
 
@@ -50,44 +53,25 @@ if (isset($_SESSION['email'])) {
             foreach ($value as $key2 => $value2) {
                 if ($key2 != "roleEvent") {
                     echo "<td> $value2 </td>";
-                }else{
+                } else {
                     if (isset($_SESSION['email'])) {
-                        if (count($resultParticipation)>0) {
-
-                            for ($i = 0; $i < count($resultParticipation); $i++) {
-                                $tabEvent[$i] = $resultParticipation[$i][1];
-                            }
-                            for ($i = 0; $i < count($tabEvent); $i++) {
-
-                                if ($value['nomEvent'] == $tabEvent[$i]) {
-                                    echo '<td>Insrit !</td>';
-
-                                } else {
-                                    if ($_SESSION['idRole'] == 0) {
-                                        echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
-                                    } elseif ($_SESSION['idRole'] == 1) {
-                                        echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Je participe</td>";
-                                    }
-                                }
-                            }
-                        }else {
+                        if (in_array($value['nomEvent'], $tabEvent)) {
+                            echo "<td><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
+                        } else {
                             if ($_SESSION['idRole'] == 0) {
-                                echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
+                                echo "<td><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Inscription</a></td>";
                             } elseif ($_SESSION['idRole'] == 1) {
-                                echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Je participe</td>";
+                                echo "<td><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
                             }
                         }
-
-                    }else{
-
-                        if ($value2 == 1){
+                    } else {
+                        if ($value2 == 1) {
                             echo "<td> Spectateur </td>";
-                        }elseif ($value2 == 2){
+                        } elseif ($value2 == 2) {
                             echo "<td> Sportif </td>";
-                        }elseif ($value2 == 3){
+                        } elseif ($value2 == 3) {
                             echo "<td> Spectateur et sportif </td>";
                         }
-
                     }
                 }
             }
