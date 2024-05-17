@@ -96,7 +96,8 @@ $result = $result->fetch_assoc();
 
 
         <button type="submit">S'inscrire</button>
-    </form>
+
+    </form><a class="delete" href="supprCompte.php">Supprimer le Compte</a>
 </div>
 
 </body>

@@ -4,8 +4,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         require_once '../../import/BDD.php';
 
-
-
         $email = $email = strtolower($_POST['email']);
         $pass = $_POST['password'];
         $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
