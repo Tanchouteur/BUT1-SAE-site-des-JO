@@ -16,6 +16,7 @@ if (isset($_SESSION['email'])) {
     $stmt->execute();
     $resultParticipation = $stmt->get_result();
     $resultParticipation = $resultParticipation->fetch_all();
+
 }
 ?>
 
@@ -51,14 +52,17 @@ if (isset($_SESSION['email'])) {
                     echo "<td> $value2 </td>";
                 }else{
                     if (isset($_SESSION['email'])) {
-                        if (isset($resultParticipation[0])){
+                        if (count($resultParticipation)>0) {
 
-                            foreach ($resultParticipation as $nomEventP){
-                                if ($value['nomEvent'] == $nomEventP[1]){
+                            for ($i = 0; $i < count($resultParticipation); $i++) {
+                                $tabEvent[$i] = $resultParticipation[$i][1];
+                            }
+                            for ($i = 0; $i < count($tabEvent); $i++) {
 
+                                if ($value['nomEvent'] == $tabEvent[$i]) {
                                     echo '<td>Insrit !</td>';
 
-                                }else{
+                                } else {
                                     if ($_SESSION['idRole'] == 0) {
                                         echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
                                     } elseif ($_SESSION['idRole'] == 1) {
@@ -66,7 +70,6 @@ if (isset($_SESSION['email'])) {
                                     }
                                 }
                             }
-
                         }else {
                             if ($_SESSION['idRole'] == 0) {
                                 echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
@@ -74,6 +77,7 @@ if (isset($_SESSION['email'])) {
                                 echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Je participe</td>";
                             }
                         }
+
                     }else{
 
                         if ($value2 == 1){
