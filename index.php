@@ -10,8 +10,12 @@ $resultEvent = mysqli_query($db,$sql);
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
 
-    $sql = "SELECT emailParticipant FROM ParticipationEvent where emailParticipant='$email'";
-    $resultParticipation = mysqli_query($db, $sql);
+    $sql = "SELECT emailParticipant, nomEvent FROM ParticipationEvent where emailParticipant=?";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultParticipation = $stmt->get_result();
+    $resultParticipation = $resultParticipation->fetch_all();
 }
 ?>
 
@@ -47,9 +51,22 @@ if (isset($_SESSION['email'])) {
                     echo "<td> $value2 </td>";
                 }else{
                     if (isset($_SESSION['email'])) {
+                        if (isset($resultParticipation[0])){
 
-                        if (isset($resultParticipation)){
-                            echo '<td>Insrit !</td>';
+                            foreach ($resultParticipation as $nomEventP){
+                                if ($value['nomEvent'] == $nomEventP[1]){
+
+                                    echo '<td>Insrit !</td>';
+
+                                }else{
+                                    if ($_SESSION['idRole'] == 0) {
+                                        echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
+                                    } elseif ($_SESSION['idRole'] == 1) {
+                                        echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Je participe</td>";
+                                    }
+                                }
+                            }
+
                         }else {
                             if ($_SESSION['idRole'] == 0) {
                                 echo "<td><a href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'></a>Inscription</td>";
