@@ -8,7 +8,10 @@ if (!empty($_POST)) {
     $new_email = $_POST["email"];
     $new_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $new_nom = $_POST["nom"];
-    $new_age = $_POST["age"];
+    if(filter_var($_POST["age"], FILTER_VALIDATE_INT) !== false) {
+        $new_age = $_POST["age"];
+    }
+
     $status = "Données Mise à Jour";
     if (isset($_POST['password'])) {
         $sql = "UPDATE Users SET login = ?, email = ?, mdp = ?, age = ? WHERE email = ?";

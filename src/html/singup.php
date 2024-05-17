@@ -1,3 +1,54 @@
+<?php
+require_once '../../import/BDD.php';
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+// Récupère les données du formulaire
+    $user = $_POST['username'];
+    $email = strtolower($_POST['email']);
+    $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+
+// Prépare et exécute la requête d'insertion
+    $sql = "INSERT INTO Users (login, email, mdp, idRole) VALUES (?, ?, ?, ?)";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("sssi", $user, $email, $pass, $role);
+
+
+
+    $sql2 = "select * from Users where email=?";
+    $stmt2 = $db->prepare($sql2);
+    $stmt2->bind_param("s", $email);
+    $stmt2->execute();
+    $result = $stmt2->get_result();
+    $row = $result->fetch_assoc();
+
+    if (!isset($row["email"])) {
+
+        $sql2 = "select * from AuthorizedEmail where email=?";
+        $stmt2 = $db->prepare($sql2);
+        $stmt2->bind_param("s", $email);
+        $stmt2->execute();
+        $result = $stmt2->get_result();
+        $row = $result->fetch_assoc();
+
+        if (isset($row["email"])) {
+            $role = $row['codeRole'];
+        }else{
+            $role = 0;
+        }
+
+        if ($stmt->execute()) {
+            header("location:singin.php?status=1&msg=Inscription Reussi&email=".$email);
+        } else {
+            header("location:singup.php?status=0&msg=Une erreur est survenue");
+        }
+    } else {
+        header("location:singup.php?status=0&msg=Email deja existant");
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -38,7 +89,7 @@
             }
         }?>
         <h2>Inscription</h2>
-        <form action="../PHP/register.php" method="post">
+        <form action="singup.php" method="post">
             <div class="form-group">
                 <label for="username">Nom</label>
                 <input type="text" id="username" name="username" placeholder="Utiliser pour la connexion" required>

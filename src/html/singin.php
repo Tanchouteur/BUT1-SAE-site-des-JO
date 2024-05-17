@@ -1,3 +1,42 @@
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        require_once '../../import/BDD.php';
+
+
+
+        $email = $email = strtolower($_POST['email']);
+        $pass = $_POST['password'];
+        $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
+
+
+        $sql = "SELECT * FROM Users WHERE email = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            var_dump($row);
+            if (password_verify($pass, $row['mdp'])) {
+
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['nom'] = $row['login'];
+                $_SESSION['idRole'] = $row['idRole'];
+
+                header("location:../../index.php?status=1&msg=succes");
+
+            } else {
+                header("location:singin.php?status=0&msg=Login ou mot de passe incorrect");
+            }
+        } else {
+            header("location:singin.php?status=0&msg=Login ou mot de passe incorrect");
+        }
+
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -39,11 +78,11 @@
             }
         }?>
         <h2>Connexion</h2>
-        <form action="../PHP/login.php" method="post">
+        <form action="singin.php" method="post">
 
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?php if(isset($_GET['email'])){ echo $_GET['email'];} ?>" required>
             </div>
             <div class="form-group">
                 <label for="password">Mot de passe :</label>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+$email = $_SESSION['email'];
 session_unset();
 session_destroy();
-header("location:../../index.php");
+header("location:../html/singin.php?email=$email");
