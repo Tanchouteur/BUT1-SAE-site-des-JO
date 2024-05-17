@@ -23,7 +23,7 @@ if (!empty($_POST)) {
     $stmt->execute();
 }
 
-$sql = "SELECT * FROM Users WHERE email = ?";
+$sql = "SELECT * FROM Users NATURAL JOIN Roles WHERE email = ?";
 $stmt = $db->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -79,7 +79,7 @@ $result = $result->fetch_assoc();
     </div>
 
     <div>
-        <label for="nom">Role : <?php echo $result['idRole'] ?></label>
+        <label for="nom">Role : <?php echo $result['nomRole'] ?></label>
     </div>
 
     <div>

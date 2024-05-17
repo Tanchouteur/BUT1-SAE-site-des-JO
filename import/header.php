@@ -1,6 +1,6 @@
 <?php
 require_once "import/BDD.php";
-session_start();
+
 $event = 0;
 if (isset($_SESSION['email'])) {
 

@@ -21,7 +21,7 @@
                 <input type="password" id="password" name="password" required>
             </div>
 
-            <button type="submit">S'inscrire</button>
+            <button type="submit">Se Connecter</button>
         </form>
     </div>
 </div>

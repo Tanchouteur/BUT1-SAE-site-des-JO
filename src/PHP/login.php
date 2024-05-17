@@ -31,6 +31,7 @@ if ($result->num_rows > 0) {
 
         $_SESSION['email'] = $row['email'];
         $_SESSION['nom'] = $row['login'];
+        $_SESSION['idRole'] = $row['idRole'];
 
         header("location:../../index.php?status=sucess");
 
