@@ -1,11 +1,24 @@
 /* styles.css */
 
 /* Reset de la marge et du padding */
-* {
+*,body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: #151515;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+div.GestionEvent{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+
 }
 .container {
     width: 90%;

@@ -1,58 +1,42 @@
 /* Style de l'en-tête et de la barre de navigation */
 header {
+    display: flex;
     background: linear-gradient(to bottom right, rgba(211, 208, 208, 0.1), rgba(133, 109, 133, 0.5)); /* Dégradé transparent */
     padding: 20px 0;
-    font-family: Arial;
-    align-self: center;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
     box-shadow: 0px 0px 20px black;
     width: 100%;
+    text-align: center;
+    justify-content: center;
 }
 
 .navbar {
     height: 95%;
-    width: 100%;
-    /*align-self: center;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
-    display: inline-flex;*/
-}
-
-.container {
-    width: 100%;
-    margin: 0 auto;
-    max-width: 1200px;
+    width: 80%;
 
 }
+
 .container-nav{
-    display: inline-block;
+    display: inline-flex;
     flex-direction: row;
     width: 100%;
-    align-self: center;
     align-items: center;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
+    justify-content: space-between;
+
 }
 .brand{
 
 }
 .nav-links{
 
+
 }
 .auth-buttons{
     display: flex;
     flex-direction: row;
-
 }
 
-.btn-login, .btn-signup, a{
-    background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
+a.btn-navBar{
+    background-color: rgba(0, 0, 255,0.9); /* Couleur de fond transparente */
     color: #fafafa;
     border: none;
     padding: 10px 20px;
@@ -60,34 +44,41 @@ header {
     cursor: pointer;
     border-radius: 10px; /* Coins arrondis */
     font-size: 2vh;
-
+    textDecoration: none;
     backdrop-filter: blur(100px);
     transition: 0.2s;
 }
 
-.btn-login:hover, .btn-signup:hover, a:hover{
+.btn-navBar:hover{
     backdrop-filter: blur(100px);
     font-size: 2.3vh;
     background-color: rgba(0, 0, 255,0.8);
-    margin: 2px;
+    padding: 7px 15px;
 }
 
-a{
+a.btn-ListEvent{
     text-decoration: none;
+    background-color: #7c7c7c;
+    padding: 5px 10px;
+    transition: 0.2s;
+    cursor: pointer;
+    border-radius: 10px; /* Coins arrondis */
+    textDecoration: none;
 }
+
+a.btn-ListEvent:hover{
+    background-color: #353535;
+}
+
 h2.navbar,h3.navbar{
-    background-color: rgba(0, 0, 255,0.5); /* Couleur de fond transparente */
+    background-color: rgb(52, 52, 195); /* Couleur de fond transparente */
     color: #fafafa;
     border: none;
     padding: 10px 10px;
     margin: 5px;
-    border-radius: 10px; /* Coins arrondis */
+    border-radius: 10px;
     font-size: 2vh;
-
 }
 h2.active{
     font-weight: bold;
-}
-a{
-    color: white;
 }

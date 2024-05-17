@@ -25,10 +25,10 @@ if (isset($_SESSION['email'])) {
         </div>
 
         <div class="nav-links">
-            <a href="#">Accueil</a>
+            <a class='btn-navBar' href="#">Accueil</a>
             <?php
             if ($event==1){
-                echo "<a href='src/PHP/Event/gestionEvent.php'>Événements</a>";
+                echo "<a class='btn-navBar' href='src/PHP/Event/gestionEvent.php'>Événements</a>";
             }            ?>
         </div>
 
@@ -36,18 +36,12 @@ if (isset($_SESSION['email'])) {
             <?php
 
             if (!isset($_SESSION['email'])) {
-            echo '<a href="src/html/singin.php" class="btn-login">Connexion</a>
-                    <a href="src/html/singup.php" class="btn-signup">Inscription</a>';
+            echo '<a class="btn-navBar" href="src/html/singin.php" class="btn-login">Connexion</a>
+                    <a class="btn-navBar" href="src/html/singup.php" class="btn-signup">Inscription</a>';
             }elseif(isset($_SESSION['email'])){
-                echo "<a href='src/PHP/pagePerso.php' class='btn-login'>Profile</a>
-                        <a href='src/PHP/deconnect.php' class='btn-signup'>Deconnexion</a>";
-            }
-
-
-
-            ?>
-
-
+                echo "<a class='btn-navBar' href='src/PHP/pagePerso.php' class='btn-login'>Profile</a>
+                        <a class='btn-navBar' href='src/PHP/deconnect.php' class='btn-signup'>Deconnexion</a>";
+            }            ?>
         </div>
     </div>
 </nav>
