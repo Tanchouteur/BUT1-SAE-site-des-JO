@@ -1,8 +1,16 @@
 <?php
 session_start();
-require_once "../../../import/BDD.php";
 
-$email = $_SESSION['email'];
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    if (isset($_SESSION['idRole']) && $_SESSION['idRole'] != 2) {
+        header('Location: ../../../index.php');
+    }
+}else{
+    header('Location: ../../../index.php');
+}
+require_once "../../../import/BDD.php";
 
 $sql = "SELECT idRole FROM Users where email = '$email'";
 $result = mysqli_query($db,$sql);

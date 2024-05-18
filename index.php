@@ -38,9 +38,6 @@ if($ord == 0) {
 }
 
 
-
-
-
 $resultEvent = mysqli_query($db, $sql);
 
 $tabEvent = [];
@@ -97,6 +94,9 @@ if (isset($_SESSION['email'])) {
             echo "<tr>";
             foreach ($value as $key2 => $value2) {
                 if ($key2 != "roleEvent") {
+                    if ($key2 == "nomEvent") {
+                        echo "<td><a class='btn-ListEvent' href='src/PHP/Event/pageEvent.php?event=$value2'> " . $value2 . "</a></td>";
+                    }
                     echo "<td> $value2 </td>";
                 } else {
                     if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
