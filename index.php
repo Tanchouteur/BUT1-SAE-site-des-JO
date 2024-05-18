@@ -2,8 +2,16 @@
 
 require_once "import/BDD.php";
 session_start();
+if (isset($_GET['tri'])){
+    if($_GET['tri'] == 0){
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY nomEvent ASC";
+    }elseif ($_GET['tri'] == 1) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY lieuEvent ASC";
+    }elseif ($_GET['tri'] == 2) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
+    }
+}
 
-$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
 $resultEvent = mysqli_query($db, $sql);
 
 $tabEvent = [];
@@ -44,7 +52,7 @@ if (isset($_SESSION['email'])) {
     <h2>Liste des évenement</h2>
     <table>
         <thead>
-        <tr><th>Non Event</th><th>Lieux</th><th>Description</th><th>Type</th><th>Role</th><th>Créateur de l'évenement</th><th>Date</th></tr>
+        <tr><th><a href="?tri=0">Non Event</a></th><th><a href="?tri=1">Lieux<a/></th><th>Description</th><th>Type</th><th>Role</th><th>Créateur de l'évenement</th><th><a href="?tri=2">Date</a></th></tr>
         </thead>
         <tbody>
         <?php
@@ -54,7 +62,7 @@ if (isset($_SESSION['email'])) {
                 if ($key2 != "roleEvent") {
                     echo "<td> $value2 </td>";
                 } else {
-                    if (isset($_SESSION['email'])) {
+                    if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
                         if (in_array($value['nomEvent'], $tabEvent)) {
                             echo "<td><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
                         } else {
@@ -64,7 +72,7 @@ if (isset($_SESSION['email'])) {
                                 echo "<td><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
                             }
                         }
-                    } else {
+                    } elseif (!isset($_SESSION['email']) || $_SESSION['idRole'] ==2){
                         if ($value2 == 1) {
                             echo "<td> Spectateur </td>";
                         } elseif ($value2 == 2) {
