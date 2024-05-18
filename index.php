@@ -96,6 +96,8 @@ if (isset($_SESSION['email'])) {
                 if ($key2 != "roleEvent") {
                     if ($key2 == "nomEvent") {
                         echo "<td><a class='btn-ListEvent' href='src/PHP/Event/pageEvent.php?event=$value2'> " . $value2 . "</a></td>";
+                    }else{
+                        echo "<td> $value2 </td>";
                     }
 
                 } else {
