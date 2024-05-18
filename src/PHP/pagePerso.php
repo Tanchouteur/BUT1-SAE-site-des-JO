@@ -5,11 +5,11 @@ require_once "../../import/BDD.php";
 $email = $_SESSION['email'];
 $status = "";
 if (!empty($_POST)) {
-if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $new_email = strtolower($_POST['email']);
-}else{
-    $status = "Entrée une email valide";
-}
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $new_email = strtolower($_POST['email']);
+    }else{
+        $status = "Entrée une email valide";
+    }
 
     $new_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $new_nom = $_POST["nom"];
