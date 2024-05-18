@@ -2,36 +2,40 @@
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        require_once '../../import/BDD.php';
+    require_once '../../import/BDD.php';
+    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $email = strtolower($_POST['email']);
+    }else{
+        header("location:singin.php?status=0&msg=Entrer une addresse email valide");
+    }
 
-        $email = $email = strtolower($_POST['email']);
-        $pass = $_POST['password'];
-        $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
+    $pass = $_POST['password'];
+    $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
 
-        $sql = "SELECT * FROM Users WHERE email = ?";
-        $stmt = $db->prepare($sql);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $sql = "SELECT * FROM Users WHERE email = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            var_dump($row);
-            if (password_verify($pass, $row['mdp'])) {
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        var_dump($row);
+        if (password_verify($pass, $row['mdp'])) {
 
-                $_SESSION['email'] = $row['email'];
-                $_SESSION['nom'] = $row['login'];
-                $_SESSION['idRole'] = $row['idRole'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['nom'] = $row['login'];
+            $_SESSION['idRole'] = $row['idRole'];
 
-                header("location:../../index.php?status=1&msg=succes");
+            header("location:../../index.php?status=1&msg=succes");
 
-            } else {
-                header("location:singin.php?status=0&msg=Login ou mot de passe incorrect");
-            }
         } else {
             header("location:singin.php?status=0&msg=Login ou mot de passe incorrect");
         }
+    } else {
+        header("location:singin.php?status=0&msg=Login ou mot de passe incorrect");
+    }
 
 }
 ?>

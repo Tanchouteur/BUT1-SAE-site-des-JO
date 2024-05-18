@@ -13,6 +13,8 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
+    width: 100vw;
 }
 div.GestionEvent{
     background: #d8d8d8;
@@ -22,7 +24,7 @@ div.GestionEvent{
     flex-direction: column;
     overflow-scrolling: auto;
     overflow: scroll;
-    overflow-x: hidden;
+    overflow-x: auto;
 
     margin: 10px;
     padding: 20px;
@@ -62,4 +64,8 @@ th {
 a.btn-ListEvent{
     color: white;
     margin: 0px;
+}
+
+div.footer{
+    margin-top: 20vh;
 }

@@ -5,9 +5,17 @@ require_once "../../import/BDD.php";
 $email = $_SESSION['email'];
 $status = "";
 if (!empty($_POST)) {
-    $new_email = $_POST["email"];
+if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $new_email = strtolower($_POST['email']);
+}else{
+    $status = "Entrée une email valide";
+}
+
     $new_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $new_nom = $_POST["nom"];
+    $new_nom = trim($new_nom); // Supprimer les espaces en début et fin
+    $new_nom = filter_var($new_nom, FILTER_SANITIZE_STRING); // Supprimer les balises HTML et autres caractères spéciaux
+
     if(filter_var($_POST["age"], FILTER_VALIDATE_INT) !== false) {
         $new_age = $_POST["age"];
     }

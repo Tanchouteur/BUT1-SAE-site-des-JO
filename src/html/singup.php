@@ -5,7 +5,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Récupère les données du formulaire
     $user = $_POST['username'];
-    $email = strtolower($_POST['email']);
+    $user = trim($user); // Supprimer les espaces en début et fin
+    $user = filter_var($user, FILTER_SANITIZE_STRING); // Supprimer les balises HTML et autres caractères spéciaux
+
+    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $email = strtolower($_POST['email']);
+    }else{
+        header("location:singup.php?status=0&msg=Entrer une addresse email valide");
+    }
+
     $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
 
