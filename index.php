@@ -9,9 +9,9 @@ if (isset($_GET['tri'])){
         $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY lieuEvent ASC";
     }elseif ($_GET['tri'] == 2) {
         $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
-    }else{
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
     }
+}else{
+    $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
 }
 
 $resultEvent = mysqli_query($db, $sql);
