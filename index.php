@@ -97,7 +97,7 @@ if (isset($_SESSION['email'])) {
                     if ($key2 == "nomEvent") {
                         echo "<td><a class='btn-ListEvent' href='src/PHP/Event/pageEvent.php?event=$value2'> " . $value2 . "</a></td>";
                     }
-                    echo "<td> $value2 </td>";
+
                 } else {
                     if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
                         if (in_array($value['nomEvent'], $tabEvent)) {
