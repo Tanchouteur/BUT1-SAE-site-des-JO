@@ -62,7 +62,14 @@ $resultCommentaire = $resultCommentaire->fetch_all();
 
             <div class="auth-buttons">
 
-                <?php echo "<a class='btn-navBar' href='../deconnect.php' class='btn-signup'>Deconnexion</a>"; ?>
+                <?php
+                if (isset($_SESSION['email']) && isset($_SESSION['idRole']) && isset($_SESSION['nom'])){
+                    echo "<a class='btn-navBar' href='../deconnect.php' class='btn-signup'>Deconnexion</a>";
+                }else{
+                    echo "<a class='btn-navBar' href='../../html/singin.php' class='btn-signup'>Connexion</a>";
+                    echo "<a class='btn-navBar' href='../../html/singup.php' class='btn-signup'>Inscription</a>";
+                }
+                ?>
 
             </div>
         </div>
