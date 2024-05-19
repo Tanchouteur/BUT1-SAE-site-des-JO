@@ -42,8 +42,9 @@ div.titleBox{
 .container {
     width: 90%;
     margin: 0 auto;
-    max-width: 1200px;
+    min-height: 40vh;
     overflow: hidden;
+    background-image: url("../img/BG.avif");
 }
 
 

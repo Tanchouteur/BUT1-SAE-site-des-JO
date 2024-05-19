@@ -70,9 +70,9 @@ if (isset($_SESSION['email'])) {
 <?php require_once "import/header.php"; ?>
 
 <body>
-<div class="container" id="Acceuil">
+<!--<div class="container" id="Acceuil">
 
-</div>
+</div>-->
 
 <div class="GestionEvent">
     <h2>Liste des évenement</h2>
