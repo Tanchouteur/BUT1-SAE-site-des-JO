@@ -7,7 +7,7 @@ header {
     width: 100%;
     text-align: center;
     justify-content: center;
-    margin-bottom: 3em;
+    margin-bottom: 1em;
 }
 
 .navbar {
@@ -63,20 +63,6 @@ a.btn-navBar{
     padding: 7px 15px;
 }
 
-a.btn-ListEvent{
-    text-decoration: none;
-    background-color: #7c7c7c;
-    padding: 5px 10px;
-    transition: 0.2s;
-    cursor: pointer;
-    border-radius: 10px; /* Coins arrondis */
-
-}
-
-a.btn-ListEvent:hover{
-    background-color: #353535;
-}
-
 h2.navbar,h3.navbar{
     background-color: rgb(52, 52, 195); /* Couleur de fond transparente */
     color: #fafafa;
@@ -90,8 +76,33 @@ h2.active{
     font-weight: bold;
 }
 
-footer{
-    height: 10vh;
-    background-color: #353535;
-    overflow: hidden;
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+    color: white;
+    font-size: 0.7em;
+}
+
+.footer-content a {
+    color: #f8735c;
+    text-decoration: none;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
+div.footer-content p{
+    color: white;
 }

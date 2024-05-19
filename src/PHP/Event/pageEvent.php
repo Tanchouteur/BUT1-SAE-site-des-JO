@@ -25,6 +25,7 @@ $result = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['commentaire'])){
         $new_commentaire = $_POST['commentaire'];
+        $new_commentaire = trim($new_commentaire); // Supprimer les espaces en début et fin
         $sql = "INSERT INTO Commentaire (nom, email, idRole, event, commentaire) VALUES ('$nom', '$email', '$idRole', '$event', '$new_commentaire')";
         $insertCom = mysqli_query($db,$sql);
         $status = 1;
@@ -44,7 +45,7 @@ $resultCommentaire = $resultCommentaire->fetch_all();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Evenement</title>
+    <title>P2024 - Page de l'Evenement</title>
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/formulaire.css">
@@ -99,11 +100,21 @@ $resultCommentaire = $resultCommentaire->fetch_all();
         <?php
         if (count($resultCommentaire) > 0) {
             foreach ($resultCommentaire as $commentaire) {
+
+                if($commentaire[3] == 0){
+                    $nomRole = 'Spectateur';
+                }elseif ($commentaire[3] == 1){
+                    $nomRole = 'Sportif';
+                }elseif ($commentaire[3] == 2){
+                    $nomRole = "Organisateur";
+                }
+
                 echo "<div class='";
                 if ($commentaire[1] == $nom) { echo "myCom";}
                 echo " commentaire'>
-                        <h2>$commentaire[1]</h2>
+                        <h2>$commentaire[1] ($nomRole)</h2>
                         <span>$commentaire[5]</span>
+                       
                       </div>";
             }
         }

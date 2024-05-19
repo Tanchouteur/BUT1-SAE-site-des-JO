@@ -36,7 +36,7 @@ if (isset($_GET['status'])&&isset($_GET['msg'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de Connexion</title>
+    <title>P2024 - Gestion Evenement</title>
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
 </head>
