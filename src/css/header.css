@@ -89,3 +89,9 @@ h2.navbar,h3.navbar{
 h2.active{
     font-weight: bold;
 }
+
+footer{
+    height: 10vh;
+    background-color: #353535;
+    overflow: hidden;
+}

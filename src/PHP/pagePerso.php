@@ -78,6 +78,7 @@ $result = $result->fetch_assoc();
 <h2 class="formH2"><?php echo $status;?></h2>
 
 <div class="formulaire">
+
     <form action="pagePerso.php" method="post">
 
         <div class="form-group">
@@ -105,8 +106,11 @@ $result = $result->fetch_assoc();
 
         <button type="submit">S'inscrire</button>
 
-    </form><a class="delete" href="supprCompte.php">Supprimer le Compte</a>
-</div>
+    </form>
 
+</div>
+<div class="form-group-delete">
+    <a class="delete" href="supprCompte.php">Supprimer le Compte</a>
+</div>
 </body>
 </html>

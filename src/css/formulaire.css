@@ -1,11 +1,13 @@
 /* Container principal pour le formulaire */
 .formulaire {
-    max-width: 600px;
-    margin: 50px auto;
+    max-width: 50%;
+    margin: 30px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-height: 65vh;
+    /*height: 60vh;*/
 }
 
 /* Style des titres */
@@ -18,6 +20,11 @@ h2.formH2 {
 /* Styles pour les labels et les champs de formulaire */
 .form-group {
     margin-bottom: 15px;
+}
+
+.form-group-delete{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 2px;
 }
 
 label {
