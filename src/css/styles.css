@@ -70,7 +70,8 @@ a.btn-ListEvent{
     cursor: pointer;
     border-radius: 10px; /* Coins arrondis */
     color: white;
-    margin: 0px;
+    margin: 0;
+    font-size: 1em;
 }
 
 a.btn-ListEvent:hover{
@@ -117,7 +118,7 @@ div.sectionCom{
     height: 30vh;
     margin-top: 10px;
     margin-bottom: 40px;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: auto;
     overflow-scrolling: auto;
     border-radius: 10px;
@@ -155,4 +156,23 @@ div.EventPresentation{
     margin-top: 10px;
     height: fit-content;
     padding: 10px;
+}
+@media (max-width: 1430px) {
+    a.btn-ListEvent{
+        padding: 4px 7px;
+        font-size: 0.75em;
+    }
+    div.GestionEvent{
+        width: 89%;
+    }
+}
+
+@media (max-width: 1200px) {
+    a.btn-ListEvent{
+        padding: 2px 5px;
+        font-size: 0.7em;
+    }
+    div.GestionEvent{
+        width: 98%;
+    }
 }
