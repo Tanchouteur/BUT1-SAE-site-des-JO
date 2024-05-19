@@ -106,3 +106,21 @@ footer {
 div.footer-content p{
     color: white;
 }
+
+@media (max-width: 1050px) {
+    a.btn-navBar{
+
+        font-size: 0.8em;
+    }
+
+}
+
+@media (max-width: 950px) {
+    a.btn-navBar{
+
+        font-size: 0.6em;
+    }
+    .logo{
+        width: 25%;
+    }
+}
