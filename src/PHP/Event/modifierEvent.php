@@ -63,7 +63,7 @@ $stmt->bind_param("s", $_GET['event']);
 $stmt->execute();
 $result = $stmt->get_result();
 $result = $result->fetch_assoc();
-if (!isset($row["nomEvent"])) {
+if (!isset($result["nomEvent"])) {
     header("location:creeEvent.php?status=0&msg=Evenement n'existe pas");
 }
 ?>
@@ -102,94 +102,96 @@ if (!isset($row["nomEvent"])) {
 <div class="container-GestionEvent">
     <a href="gestionEvent.php">Gestion des evenement</a>
 </div>
+<div class="ModifierEvent">
 
-<form action="modifierEvent.php?event=<?php echo $_GET['event']?>" method="post">
+    <form action="modifierEvent.php?event=<?php echo $_GET['event']?>" method="post">
 
-    <div class="form-group">
-        <label for="nomEvent">Nom de l'évenement : </label>
-        <input type="text" id="nomEvent" name="nomEvent" value="<?php echo $result['nomEvent'] ?>" required>
-    </div>
-    <div class="form-group">
-        <label for="lieuEvent">Lieux de l'évenement :</label>
-        <input type="text" id="lieuEvent" name="lieuEvent" value="<?php echo $result['lieuEvent'] ?>" required>
-    </div>
-    <div class="form-group">
-        <label for="descriptionEvent">Description : </label>
-        <input type="text" id="descriptionEvent" name="descriptionEvent"  value="<?php echo $result['descriptionEvent'] ?>" required>
-    </div>
+        <div class="form-group">
+            <label for="nomEvent">Nom de l'évenement : </label>
+            <input type="text" id="nomEvent" name="nomEvent" value="<?php echo $result['nomEvent'] ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="lieuEvent">Lieux de l'évenement :</label>
+            <input type="text" id="lieuEvent" name="lieuEvent" value="<?php echo $result['lieuEvent'] ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="descriptionEvent">Description : </label>
+            <input type="text" id="descriptionEvent" name="descriptionEvent"  value="<?php echo $result['descriptionEvent'] ?>" required>
+        </div>
 
-    <div class="form-group">
-        <label for="typeEvent">Type d'évenement : </label>
-        <select id="typeEvent" name="typeEvent" required >
+        <div class="form-group">
+            <label for="typeEvent">Type d'évenement : </label>
+            <select id="typeEvent" name="typeEvent" required >
 
+                <?php
+
+                if ($result['typeEvent'] == 1) {
+                    echo "<option value='1' selected>Type 1</option>
+                <option value='2'>Type 2</option>
+                <option value='3'>Type 3</option>";
+                }elseif ($result['typeEvent'] == 2) {
+                    echo "<option value='1' >Type 1</option>
+                <option value='2' selected>Type 2</option>
+                <option value='3'>Type 3</option>";
+                }elseif ($result['typeEvent'] == 3) {
+                    echo "<option value='1'>Type 1</option>
+                <option value='2'>Type 2</option>
+                <option value='3' selected>Type 3</option>";
+                }
+
+                ?>
+
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="roleEvent">Type d'évenement : </label>
             <?php
+            if ($result['roleEvent'] == 1) {
+                echo "<div>
+                <input type='checkbox' id='spectateur' name='spectateur' value='0' checked/>
+                <label for='spectateur'>Spectateur</label>
+            </div>
+    
+            <div>
+                <input type='checkbox' id='sportif' name='sportif' value='1'/>
+                <label for='sportif'>Sportif</label>
+            </div>";
+            }elseif ($result['roleEvent'] == 2) {
+                echo "<div>
+                <input type='checkbox' id='spectateur' name='spectateur' value='0' />
+                <label for='spectateur'>Spectateur</label>
+            </div>
+    
+            <div>
+                <input type='checkbox' id='sportif' name='sportif' value='1' checked/>
+                <label for='sportif'>Sportif</label>
+            </div>";
+            }elseif ($result['roleEvent'] == 3) {
+                echo "<div>
+                <input type='checkbox' id='spectateur' name='spectateur' value='0' checked/>
+                <label for='spectateur'>Spectateur</label>
+            </div>
+    
+            <div>
+                <input type='checkbox' id='sportif' name='sportif' value='1' checked/>
+                <label for='sportif'>Sportif</label>
+            </div>";
+            }        ?>
 
-            if ($result['typeEvent'] == 1) {
-                echo "<option value='1' selected>Type 1</option>
-            <option value='2'>Type 2</option>
-            <option value='3'>Type 3</option>";
-            }elseif ($result['typeEvent'] == 2) {
-                echo "<option value='1' >Type 1</option>
-            <option value='2' selected>Type 2</option>
-            <option value='3'>Type 3</option>";
-            }elseif ($result['typeEvent'] == 3) {
-                echo "<option value='1'>Type 1</option>
-            <option value='2'>Type 2</option>
-            <option value='3' selected>Type 3</option>";
-            }
-
-            ?>
-
-
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="roleEvent">Type d'évenement : </label>
-        <?php
-        if ($result['roleEvent'] == 1) {
-            echo "<div>
-            <input type='checkbox' id='spectateur' name='spectateur' value='0' checked/>
-            <label for='spectateur'>Spectateur</label>
+        </div>
+        <div class="form-group">
+            <label for="dateEvent">Date de l'évenement : </label>
+            <input type="date" id="dateEvent" name="dateEvent" value="<?php echo $result['nomEvent'] ?>" required/>
         </div>
 
-        <div>
-            <input type='checkbox' id='sportif' name='sportif' value='1'/>
-            <label for='sportif'>Sportif</label>
-        </div>";
-        }elseif ($result['roleEvent'] == 2) {
-            echo "<div>
-            <input type='checkbox' id='spectateur' name='spectateur' value='0' />
-            <label for='spectateur'>Spectateur</label>
-        </div>
 
-        <div>
-            <input type='checkbox' id='sportif' name='sportif' value='1' checked/>
-            <label for='sportif'>Sportif</label>
-        </div>";
-        }elseif ($result['roleEvent'] == 3) {
-            echo "<div>
-            <input type='checkbox' id='spectateur' name='spectateur' value='0' checked/>
-            <label for='spectateur'>Spectateur</label>
-        </div>
+        <button type="submit">Modifier l'évenement</button>
 
-        <div>
-            <input type='checkbox' id='sportif' name='sportif' value='1' checked/>
-            <label for='sportif'>Sportif</label>
-        </div>";
-        }        ?>
-
-    </div>
-    <div class="form-group">
-        <label for="dateEvent">Date de l'évenement : </label>
-        <input type="date" id="dateEvent" name="dateEvent" value="<?php echo $result['nomEvent'] ?>" required/>
-    </div>
-
-
-    <button type="submit">Modifier l'évenement</button>
-
-</form>
-<a class="delete" href="supprEvent.php?event=<?php echo $_GET['event']?>">Supprimée l'evenement</a>
-<?php if (!empty($status)) { echo "<p>$status</p>"; } ?>
+    </form>
+    <a class="delete" href="supprEvent.php?event=<?php echo $_GET['event']?>">Supprimée l'evenement</a>
+    <?php if (!empty($status)) { echo "<p>$status</p>"; } ?>
+</div>
 </body>
 </html>
