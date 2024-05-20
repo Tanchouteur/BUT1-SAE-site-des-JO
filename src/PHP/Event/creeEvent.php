@@ -95,59 +95,61 @@ if (!empty($_POST)) {
     <div class="container-GestionEvent">
         <a href="gestionEvent.php">Gestion des evenement</a>
     </div>
-    <?php
-    if (isset($_GET['status'])&&isset($_GET['msg'])) {
-        if ($_GET['status']==0) {
-            echo "<h2 style='color: #6c2401'> " . $_GET['msg'] . "</h2>";
-        }else if ($_GET['status']==1) {
-            echo "<h2 style='color: #016c23'> " . $_GET['msg'] . "</h2>";
-        }
-    }?>
-    <form action="creeEvent.php" method="post">
+    <div class="GestionEvent">
+        <?php
+        if (isset($_GET['status'])&&isset($_GET['msg'])) {
+            if ($_GET['status']==0) {
+                echo "<h2 style='color: #6c2401'> " . $_GET['msg'] . "</h2>";
+            }else if ($_GET['status']==1) {
+                echo "<h2 style='color: #016c23'> " . $_GET['msg'] . "</h2>";
+            }
+        }?>
+        <form action="creeEvent.php" method="post">
 
-        <div class="form-group">
-            <label for="nomEvent">Nom de l'évenement : </label>
-            <input type="text" id="nomEvent" name="nomEvent" required>
-        </div>
-        <div class="form-group">
-            <label for="lieuEvent">Lieux de l'évenement :</label>
-            <input type="text" id="lieuEvent" name="lieuEvent" required>
-        </div>
-        <div class="form-group">
-            <label for="descriptionEvent">Description : </label>
-            <input type="text" id="descriptionEvent" name="descriptionEvent" required>
-        </div>
-
-        <div class="form-group">
-            <label for="typeEvent">Type d'évenement : </label>
-            <select id="typeEvent" name="typeEvent" required >
-                <option value="1">Type 1</option>
-                <option value="2">Type 2</option>
-                <option value="3">Type 3</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="roleEvent">Type d'évenement : </label>
-            <div>
-                <input type="checkbox" id="spectateur" name="spectateur" value="0"/>
-                <label for="spectateur">Spectateur</label>
+            <div class="form-group">
+                <label for="nomEvent">Nom de l'évenement : </label>
+                <input type="text" id="nomEvent" name="nomEvent" required>
+            </div>
+            <div class="form-group">
+                <label for="lieuEvent">Lieux de l'évenement :</label>
+                <input type="text" id="lieuEvent" name="lieuEvent" required>
+            </div>
+            <div class="form-group">
+                <label for="descriptionEvent">Description : </label>
+                <input type="text" id="descriptionEvent" name="descriptionEvent" required>
             </div>
 
-            <div>
-                <input type="checkbox" id="sportif" name="sportif" value="1"/>
-                <label for="sportif">Sportif</label>
+            <div class="form-group">
+                <label for="typeEvent">Type d'évenement : </label>
+                <select id="typeEvent" name="typeEvent" required >
+                    <option value="1">Type 1</option>
+                    <option value="2">Type 2</option>
+                    <option value="3">Type 3</option>
+                </select>
             </div>
 
-        </div>
-        <div class="form-group">
-            <label for="dateEvent">Date de l'évenement : </label>
-            <input type="date" id="dateEvent" name="dateEvent"/>
-        </div>
+            <div class="form-group">
+                <label for="roleEvent">Type d'évenement : </label>
+                <div>
+                    <input type="checkbox" id="spectateur" name="spectateur" value="0"/>
+                    <label for="spectateur">Spectateur</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="sportif" name="sportif" value="1"/>
+                    <label for="sportif">Sportif</label>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="dateEvent">Date de l'évenement : </label>
+                <input type="date" id="dateEvent" name="dateEvent"/>
+            </div>
 
 
-        <button type="submit">Crée l'évenement</button>
-    </form>
-    <?php if (!empty($status)) { echo "<p>$status</p>"; } ?>
+            <button type="submit">Crée l'évenement</button>
+        </form>
+        <?php if (!empty($status)) { echo "<p>$status</p>"; } ?>
+    </div>
 </body>
 </html>

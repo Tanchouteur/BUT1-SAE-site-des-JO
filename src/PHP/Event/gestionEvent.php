@@ -62,7 +62,7 @@ if (isset($_GET['status'])&&isset($_GET['msg'])){
 </header>
 <body>
     <div class="container-GestionEvent">
-        <a href="creeEvent.php">Crée un evenement</a>
+        <a class="btn-ListEvent" href="creeEvent.php">Crée un evenement</a>
     </div>
 
     <div class="GestionEvent">
