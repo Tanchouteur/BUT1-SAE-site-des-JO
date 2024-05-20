@@ -3,6 +3,17 @@
 session_start();
 require_once "../../../import/BDD.php";
 
+$updateQuery = "
+    UPDATE Event e
+    JOIN (
+        SELECT nomEvent, COUNT(*) AS participant_count
+        FROM ParticipationEvent
+        GROUP BY nomEvent
+    ) pe ON e.nomEvent = pe.nomEvent
+    SET e.nbrParticipant = pe.participant_count;
+";
+$db->query($updateQuery);
+
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     if (isset($_SESSION['idRole']) && $_SESSION['idRole'] != 2) {
