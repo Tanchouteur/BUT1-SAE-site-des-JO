@@ -2,6 +2,19 @@
 
 require_once "import/BDD.php";
 session_start();
+
+$updateQuery = "
+    UPDATE Event e
+    JOIN (
+        SELECT nomEvent, COUNT(*) AS participant_count
+        FROM ParticipationEvent
+        GROUP BY nomEvent
+    ) pe ON e.nomEvent = pe.nomEvent
+    SET e.nbrParticipant = pe.participant_count;
+";
+$db->query($updateQuery);
+
+
 //Selection de l'ordre de tri
 if (isset($_GET['ord'])){
     if($_GET['ord'] == 0){
@@ -21,19 +34,27 @@ if (isset($_GET['tri'])){
 }
 if($ord == 0) {
     if ($tri == 0) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY nomEvent ASC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nomEvent ASC";
     } elseif ($tri == 1) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY lieuEvent ASC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY lieuEvent ASC";
     } elseif ($tri == 2) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent ASC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY dateEvent ASC";
+    }elseif ($tri == 3) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY roleEvent ASC";
+    }elseif ($tri == 4) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nbrParticipant ASC";
     }
 }elseif ($ord == 1) {
     if ($tri == 0) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY nomEvent DESC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nomEvent DESC";
     } elseif ($tri == 1) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY lieuEvent DESC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY lieuEvent DESC";
     } elseif ($tri == 2) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent FROM Event ORDER BY dateEvent DESC";
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY dateEvent DESC";
+    }elseif ($tri == 3) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY roleEvent desc";
+    }elseif ($tri == 4) {
+        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nbrParticipant desc";
     }
 }
 
@@ -83,9 +104,10 @@ if (isset($_SESSION['email'])) {
             <th><a <?php if ($tri == 1){ echo "style='color: #00139c'";}?> href="?tri=1&ord=<?php echo "$ord";?>">Lieux<a/></th>
             <th>Description</th>
             <th>Type</th>
-            <th>Role</th>
+            <th><a <?php if ($tri == 3){ echo "style='color: #00139c'";}?> href="?tri=3&ord=<?php echo "$ord";?>">Accès</a></th>
             <th>Créateur de l'évenement</th>
             <th><a <?php if ($tri == 2){ echo "style='color: #00139c'";}?> href="?tri=2&ord=<?php echo "$ord";?>">Date</a></th>
+            <th><a <?php if ($tri == 4){ echo "style='color: #00139c'";}?> href="?tri=4&ord=<?php echo "$ord";?>">Participant</a></th>
         </tr>
         </thead>
         <tbody>
