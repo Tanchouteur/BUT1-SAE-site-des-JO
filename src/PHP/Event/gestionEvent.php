@@ -50,6 +50,7 @@ if (isset($_GET['status'])&&isset($_GET['msg'])){
     <title>P2024 - Gestion Evenement</title>
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="icon" href="../../img/favicon.png" type="image/png">
 </head>
 <header>
     <nav class="navbar">

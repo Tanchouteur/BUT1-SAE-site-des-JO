@@ -77,6 +77,7 @@ if (!isset($result["nomEvent"])) {
     <link rel="stylesheet" href="../../css/header.css">
     <link rel="stylesheet" href="../../css/styles.css">
     <link rel="stylesheet" href="../../css/formulaire.css">
+    <link rel="icon" href="../../img/favicon.png" type="image/png">
 </head>
 <header>
     <nav class="navbar">
