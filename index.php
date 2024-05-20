@@ -10,7 +10,7 @@ $updateQuery = "
         FROM ParticipationEvent
         GROUP BY nomEvent
     ) pe ON e.nomEvent = pe.nomEvent
-    SET e.nbrParticipant = pe.participant_count;
+    SET e.nbrParticipant = COALESCE(pe.participant_count, 0);
 ";
 $db->query($updateQuery);
 
