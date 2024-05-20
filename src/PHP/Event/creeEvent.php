@@ -122,9 +122,8 @@ if (!empty($_POST)) {
             <div class="form-group">
                 <label for="typeEvent">Type d'évenement : </label>
                 <select id="typeEvent" name="typeEvent" required >
-                    <option value="1">Type 1</option>
-                    <option value="2">Type 2</option>
-                    <option value="3">Type 3</option>
+                    <option value="1">Cérémonie</option>
+                    <option value="2">Sport</option>
                 </select>
             </div>
 
