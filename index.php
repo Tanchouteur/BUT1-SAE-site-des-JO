@@ -14,61 +14,79 @@ $updateQuery = "
 ";
 $db->query($updateQuery);
 
+
+$searchNom = '';
+$searchLieu = '';
+$searchDate = '';
+$searching = 0;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Formulaire soumis<br>"; // Pour déboguer
-    if (isset($_POST['search']) && !empty(trim($_POST['search']))) {
-        $searchTerm = trim($_POST['search']);
 
+    if (isset($_POST['search_nom']) && !empty(trim($_POST['search_nom']))) {
+        $searchNom = trim($_POST['search_nom']);
         $searching = 1;
-    } else {
-
-        $searching = 0;
     }
-} else {
 
-    $searching = 0;
+    if (isset($_POST['search_lieu']) && !empty(trim($_POST['search_lieu']))) {
+        $searchLieu = trim($_POST['search_lieu']);
+        $searching = 1;
+    }
+
+    if (isset($_POST['search_date']) && !empty(trim($_POST['search_date']))) {
+        $searchDate = trim($_POST['search_date']);
+        $searching = 1;
+    }
 }
 
-
-
-//Selection de l'ordre de tri
-if (isset($_GET['ord'])){
-    if($_GET['ord'] == 0){
-        $ord = 1;
-    }elseif ($_GET['ord'] == 1) {
-        $ord = 0;
-    }
-}else{
+// Sélection de l'ordre de tri
+if (isset($_GET['ord'])) {
+    $ord = $_GET['ord'] == 0 ? 1 : 0;
+} else {
     $ord = 0;
 }
 
-//tri
-if (isset($_GET['tri'])){
-    $tri = $_GET['tri'];
-}else{
-    $tri = 2;
-}
-$searchQuery = "";
-if ($searching) {
-    $searchQuery = "WHERE nomEvent LIKE ?";
-}
+// Sélection du tri
+$triOptions = ["nomEvent", "lieuEvent", "dateEvent", "roleEvent", "nbrParticipant"];
+$tri = isset($_GET['tri']) && in_array($_GET['tri'], range(0, 4)) ? $triOptions[$_GET['tri']] : "dateEvent";
+$order = $ord == 0 ? "ASC" : "DESC";
 
-$orderClause = "";
-if ($ord == 0) {
-    $orderClause = "ASC";
-} else {
-    $orderClause = "DESC";
-}
-
-$columns = ["nomEvent", "lieuEvent", "dateEvent", "roleEvent", "nbrParticipant"];
-$column = isset($columns[$tri]) ? $columns[$tri] : "dateEvent";
-$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event $searchQuery ORDER BY $column $orderClause";
-
-$stmt = $db->prepare($sql);
+// Construire la requête SQL de recherche
+$searchQuery = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event";
+$conditions = [];
+$params = [];
+$types = '';
 
 if ($searching) {
-    $searchTermWildcard = "%" . $searchTerm . "%";
-    $stmt->bind_param('s', $searchTermWildcard);
+    if (!empty($searchNom)) {
+        $conditions[] = "nomEvent LIKE ?";
+        $params[] = "%" . $searchNom . "%";
+        $types .= 's';
+    }
+
+    if (!empty($searchLieu)) {
+        $conditions[] = "lieuEvent LIKE ?";
+        $params[] = "%" . $searchLieu . "%";
+        $types .= 's';
+    }
+
+    if (!empty($searchDate)) {
+        $conditions[] = "dateEvent = ?";
+        $params[] = $searchDate;
+        $types .= 's';
+    }
+
+    if (!empty($conditions)) {
+        $searchQuery .= " WHERE " . implode(" AND ", $conditions);
+    }
+}
+
+$searchQuery .= " ORDER BY $tri $order";
+
+$stmt = $db->prepare($searchQuery);
+
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
@@ -110,7 +128,9 @@ if (isset($_SESSION['email'])) {
         <h2>Liste des évenement</h2>
         <form action="index.php" method="post">
             <div class="form-group">
-                <input name="search" type="text" id="search" placeholder="Rechercher ..." value="<?php if (isset($searchTerm)){ echo htmlspecialchars($searchTerm);} ?>">
+                <input name="search_nom" type="text" id="search_nom" placeholder="Rechercher par nom ..." value="<?php echo htmlspecialchars($searchNom); ?>">
+                <input name="search_lieu" type="text" id="search_lieu" placeholder="Rechercher par lieu ..." value="<?php echo htmlspecialchars($searchLieu); ?>">
+                <input name="search_date" type="date" id="search_date" placeholder="Rechercher par date ..." value="<?php echo htmlspecialchars($searchDate); ?>">
                 <button type="submit">Rechercher</button>
             </div>
         </form>
