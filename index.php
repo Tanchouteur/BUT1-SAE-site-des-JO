@@ -92,23 +92,19 @@ if (isset($_SESSION['email'])) {
 <?php require_once "import/header.php"; ?>
 
 <body>
-<!--<div class="container" id="Acceuil">
-
-</div>-->
-
 <div class="GestionEvent">
     <h2>Liste des évenement</h2>
     <table>
         <thead>
         <tr>
-            <th><a <?php if ($tri == 0){ echo "style='color: #00139c'";}?> href="?tri=0&ord=<?php echo "$ord";?>">Non Event</a></th>
-            <th><a <?php if ($tri == 1){ echo "style='color: #00139c'";}?> href="?tri=1&ord=<?php echo "$ord";?>">Lieux<a/></th>
-            <th>Description</th>
-            <th>Type</th>
-            <th><a <?php if ($tri == 3){ echo "style='color: #00139c'";}?> href="?tri=3&ord=<?php echo "$ord";?>">Accès</a></th>
-            <th>Créateur de l'évenement</th>
-            <th><a <?php if ($tri == 2){ echo "style='color: #00139c'";}?> href="?tri=2&ord=<?php echo "$ord";?>">Date</a></th>
-            <th><a <?php if ($tri == 4){ echo "style='color: #00139c'";}?> href="?tri=4&ord=<?php echo "$ord";?>">Participant</a></th>
+            <th class="nomEvent"><a <?php if ($tri == 0){ echo "style='color: #00139c'";}?> href="?tri=0&ord=<?php echo "$ord";?>">Nom Event</a></th>
+            <th class="lieuEvent"><a <?php if ($tri == 1){ echo "style='color: #00139c'";}?> href="?tri=1&ord=<?php echo "$ord";?>">Lieux<a/></th>
+            <th class="descriptionEvent">Description</th>
+            <th class="typeEvent">Type</th>
+            <th class="roleEvent"><a <?php if ($tri == 3){ echo "style='color: #00139c'";}?> href="?tri=3&ord=<?php echo "$ord";?>">Accès</a></th>
+            <th class="createurEvent">Créateur de l'évenement</th>
+            <th class="dateEvent"><a <?php if ($tri == 2){ echo "style='color: #00139c'";}?> href="?tri=2&ord=<?php echo "$ord";?>">Date</a></th>
+            <th class="nbrParticipant"><a <?php if ($tri == 4){ echo "style='color: #00139c'";}?> href="?tri=4&ord=<?php echo "$ord";?>">Participant</a></th>
         </tr>
         </thead>
         <tbody>
@@ -118,29 +114,38 @@ if (isset($_SESSION['email'])) {
             foreach ($value as $key2 => $value2) {
                 if ($key2 != "roleEvent") {
                     if ($key2 == "nomEvent") {
-                        echo "<td><a class='btn-ListEvent' href='src/PHP/Event/pageEvent.php?event=$value2'> " . $value2 . "</a></td>";
-                    }else{
-                        echo "<td> $value2 </td>";
+                        echo "<td class='nomEvent'><a class='btn-ListEvent' href='src/PHP/Event/pageEvent.php?event=$value2'> " . $value2 . "</a></td>";
+                    }elseif($key2 == "lieuEvent"){
+                        echo "<td class='lieuEvent'> $value2 </td>";
+                    }elseif ($key2 == "descriptionEvent"){
+                        echo "<td class='descriptionEvent'> $value2 </td>";
+                    }elseif ($key2 == "typeEvent"){
+                        echo "<td class='typeEvent'> $value2 </td>";
+                    }elseif ($key2 == "dateEvent"){
+                        echo "<td class='dateEvent'> $value2 </td>";
+                    }elseif ($key2 == "createurEvent"){
+                        echo "<td class='createurEvent'> $value2 </td>";
+                    }elseif ($key2 == "nbrParticipant"){
+                        echo "<td class='nbrParticipant'> $value2 </td>";
                     }
-
                 } else {
                     if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
                         if (in_array($value['nomEvent'], $tabEvent)) {
-                            echo "<td><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
+                            echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
                         } else {
                             if ($_SESSION['idRole'] == 0) {
-                                echo "<td><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Inscription</a></td>";
+                                echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Inscription</a></td>";
                             } elseif ($_SESSION['idRole'] == 1) {
-                                echo "<td><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
+                                echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
                             }
                         }
                     } elseif (!isset($_SESSION['email']) || $_SESSION['idRole'] ==2){
                         if ($value2 == 1) {
-                            echo "<td> Spectateur </td>";
+                            echo "<td class='roleEvent'> Spectateur </td>";
                         } elseif ($value2 == 2) {
-                            echo "<td> Sportif </td>";
+                            echo "<td class='roleEvent'> Sportif </td>";
                         } elseif ($value2 == 3) {
-                            echo "<td> Spectateur et sportif </td>";
+                            echo "<td class='roleEvent'> Spectateur et sportif </td>";
                         }
                     }
                 }
