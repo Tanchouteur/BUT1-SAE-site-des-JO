@@ -123,7 +123,7 @@ $resultCommentaire = $resultCommentaire->fetch_all();
                 echo "<div class='";
                 if ($commentaire[1] == $nom) { echo "myCom";}
                 echo " commentaire'>
-                        <h2>$commentaire[1] ($nomRole)</h2>
+                        <h2 class='titleCom'>$commentaire[1] ($nomRole)</h2>
                         <span>$commentaire[5]</span>
                        
                       </div>";

@@ -147,7 +147,7 @@ div.sectionCom{
 div.commentaire{
     background: #d8d8d8;
     width: fit-content;
-    max-width: 43%;
+    max-width: 65%;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -158,13 +158,12 @@ div.commentaire{
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
-
 }
 div.myCom{
     float: right;
 }
 
-div.sectionCom h2{
+h2.titleCom{
 font-size: 1em;
 }
 div.sectionCom span{
@@ -199,5 +198,16 @@ div.EventPresentation{
 @media (max-width: 700px) {
     .descriptionEvent, .typeEvent, .roleEvent, .createurEvent, .nbrParticipant{
         display: none;
+    }
+    h2.titleCom{
+        font-size: 0.6em;
+    }
+    div.commentaire span{
+        font-size: 0.55em;
+    }
+    div.commentaire{
+        margin: 7px;
+        padding: 14px;
+        transition: 0.2s;
     }
 }
