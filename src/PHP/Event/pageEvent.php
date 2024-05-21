@@ -109,6 +109,7 @@ $resultCommentaire = $resultCommentaire->fetch_all();
         <div class="sectionCom">
         <?php
         if (count($resultCommentaire) > 0) {
+            if(!isset($nom)){$nom = "";}
             foreach ($resultCommentaire as $commentaire) {
 
                 if($commentaire[3] == 0){
@@ -144,6 +145,15 @@ $resultCommentaire = $resultCommentaire->fetch_all();
             echo "Vous devez etre connecter pour envoyer des commentaires";
         }
         ?>
+        <script>
+            document.querySelector('.sectionCom').scroll({
+                top:
+                    document.querySelector(".sectionCom").scrollHeight -
+                    document.querySelector(".sectionCom").clientHeight,
+                left: 0,
+                behavior: "instant",
+            });
+        </script>
     </div>
 </body>
 </html>
