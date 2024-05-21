@@ -18,7 +18,7 @@ body{
 }
 div.GestionEvent{
     background: #d8d8d8;
-    width: 85%;
+    width: 89%;
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -84,13 +84,13 @@ th {
 a.btn-ListEvent{
     text-decoration: none;
     background-color: #7c7c7c;
-    padding: 5px 10px;
+    padding: 4px 7px;
     transition: 0.2s;
     cursor: pointer;
     border-radius: 5px; /* Coins arrondis */
     color: white;
     margin: 0;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 a.btn-ListEvent:hover{
