@@ -24,11 +24,20 @@ $result = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['commentaire'])){
+        // Récupérer et sécuriser les données POST
         $new_commentaire = $_POST['commentaire'];
         $new_commentaire = trim($new_commentaire); // Supprimer les espaces en début et fin
-        $sql = "INSERT INTO Commentaire (nom, email, idRole, event, commentaire) VALUES ('$nom', '$email', '$idRole', '$event', '$new_commentaire')";
-        $insertCom = mysqli_query($db,$sql);
-        $status = 1;
+
+// Préparer la requête SQL avec des paramètres
+        $sql = "INSERT INTO Commentaire (nom, email, idRole, event, commentaire) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('ssiss', $nom, $email, $idRole, $event, $new_commentaire);
+        if ($stmt->execute()) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
     }
 }
 
