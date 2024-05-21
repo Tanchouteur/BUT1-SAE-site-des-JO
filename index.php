@@ -14,6 +14,22 @@ $updateQuery = "
 ";
 $db->query($updateQuery);
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    echo "Formulaire soumis<br>"; // Pour déboguer
+    if (isset($_POST['search']) && !empty(trim($_POST['search']))) {
+        $searchTerm = trim($_POST['search']);
+
+        $searching = 1;
+    } else {
+
+        $searching = 0;
+    }
+} else {
+
+    $searching = 0;
+}
+
+
 
 //Selection de l'ordre de tri
 if (isset($_GET['ord'])){
@@ -32,34 +48,31 @@ if (isset($_GET['tri'])){
 }else{
     $tri = 2;
 }
-if($ord == 0) {
-    if ($tri == 0) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nomEvent ASC";
-    } elseif ($tri == 1) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY lieuEvent ASC";
-    } elseif ($tri == 2) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY dateEvent ASC";
-    }elseif ($tri == 3) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY roleEvent ASC";
-    }elseif ($tri == 4) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nbrParticipant ASC";
-    }
-}elseif ($ord == 1) {
-    if ($tri == 0) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nomEvent DESC";
-    } elseif ($tri == 1) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY lieuEvent DESC";
-    } elseif ($tri == 2) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY dateEvent DESC";
-    }elseif ($tri == 3) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY roleEvent desc";
-    }elseif ($tri == 4) {
-        $sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event ORDER BY nbrParticipant desc";
-    }
+$searchQuery = "";
+if ($searching) {
+    $searchQuery = "WHERE nomEvent LIKE ?";
 }
 
+$orderClause = "";
+if ($ord == 0) {
+    $orderClause = "ASC";
+} else {
+    $orderClause = "DESC";
+}
 
-$resultEvent = mysqli_query($db, $sql);
+$columns = ["nomEvent", "lieuEvent", "dateEvent", "roleEvent", "nbrParticipant"];
+$column = isset($columns[$tri]) ? $columns[$tri] : "dateEvent";
+$sql = "SELECT nomEvent, lieuEvent, descriptionEvent, typeEvent, roleEvent, createurEvent, dateEvent, nbrParticipant FROM Event $searchQuery ORDER BY $column $orderClause";
+
+$stmt = $db->prepare($sql);
+
+if ($searching) {
+    $searchTermWildcard = "%" . $searchTerm . "%";
+    $stmt->bind_param('s', $searchTermWildcard);
+}
+
+$stmt->execute();
+$resultEvent = $stmt->get_result();
 
 $tabEvent = [];
 if (isset($_SESSION['email'])) {
@@ -93,7 +106,15 @@ if (isset($_SESSION['email'])) {
 
 <body>
 <div class="GestionEvent">
-    <h2>Liste des évenement</h2>
+    <div>
+        <h2>Liste des évenement</h2>
+        <form action="index.php" method="post">
+            <div class="form-group">
+                <input name="search" type="text" id="search" placeholder="Rechercher ..." value="<?php if (isset($searchTerm)){ echo htmlspecialchars($searchTerm);} ?>">
+                <button type="submit">Rechercher</button>
+            </div>
+        </form>
+    </div>
     <table>
         <thead>
         <tr>
