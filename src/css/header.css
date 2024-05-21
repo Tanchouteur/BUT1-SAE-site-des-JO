@@ -124,3 +124,29 @@ div.footer-content p{
         width: 25%;
     }
 }
+
+@media (max-width: 700px) {
+    a.btn-navBar{
+
+        padding: 5px 10px;
+    }
+    .btn-navBar:hover{
+        backdrop-filter: blur(100px);
+        font-size: 0.7em;
+        padding: 5px 10px;
+    }
+    .logo, .brand{
+        float: left;
+        margin: 0;
+        padding: 0;
+        justify-content: space-around;
+        width: 30%;
+    }
+    .navbar{
+        width: 93%;
+    }
+    .container-nav{
+        justify-content: space-between;
+        display: block;
+    }
+}
