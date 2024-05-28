@@ -13,5 +13,6 @@ if (isset($_GET['event']) && isset($_SESSION['email'])) {
 
     header("Location: ../../../index.php");
     exit();
-}
-?>
+}else{
+    header('location:../../html/singin.php?status=0');
+}?>

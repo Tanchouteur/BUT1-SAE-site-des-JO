@@ -3,6 +3,11 @@
 require_once "import/BDD.php";
 session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
+
 $updateQuery = "
     UPDATE Event e
     JOIN (
@@ -21,8 +26,9 @@ $searchDate = '';
 $searching = 0;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo "Formulaire soumis<br>"; // Pour déboguer
-
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     if (isset($_POST['search_nom']) && !empty(trim($_POST['search_nom']))) {
         $searchNom = trim($_POST['search_nom']);
         $searching = 1;
@@ -127,6 +133,7 @@ if (isset($_SESSION['email'])) {
     <div>
         <h2>Liste des évenement</h2>
         <form action="index.php" method="post">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
             <div class="form-group">
                 <input name="search_nom" type="text" id="search_nom" placeholder="Rechercher par nom ..." value="<?php echo htmlspecialchars($searchNom); ?>">
                 <input name="search_lieu" type="text" id="search_lieu" placeholder="Rechercher par lieu ..." value="<?php echo htmlspecialchars($searchLieu); ?>">
@@ -170,14 +177,24 @@ if (isset($_SESSION['email'])) {
                         echo "<td class='nbrParticipant'> $value2 </td>";
                     }
                 } else {
-                    if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
-                        if (in_array($value['nomEvent'], $tabEvent)) {
-                            echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
-                        } else {
-                            if ($_SESSION['idRole'] == 0) {
-                                echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Inscription</a></td>";
-                            } elseif ($_SESSION['idRole'] == 1) {
-                                echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
+                    if (isset($_SESSION['idRole'])){
+                        if (isset($_SESSION['email'])&& $_SESSION['idRole'] <2) {
+                            if (in_array($value['nomEvent'], $tabEvent)) {
+                                echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/desInscriptionEvent.php?event=" . $value['nomEvent'] . "'>Desinscription</a></td>";
+                            } else {
+                                if ($_SESSION['idRole'] == 0) {
+                                    echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Inscription</a></td>";
+                                } elseif ($_SESSION['idRole'] == 1) {
+                                    echo "<td class='roleEvent'><a class='btn-ListEvent' href='src/PHP/Event/inscriptionEvent.php?event=" . $value['nomEvent'] . "'>Je participe</a></td>";
+                                }
+                            }
+                        }elseif ($_SESSION['idRole']==2){
+                            if ($value2 == 1) {
+                                echo "<td class='roleEvent'> Spectateur </td>";
+                            } elseif ($value2 == 2) {
+                                echo "<td class='roleEvent'> Sportif </td>";
+                            } elseif ($value2 == 3) {
+                                echo "<td class='roleEvent'> Spectateur et sportif </td>";
                             }
                         }
                     } elseif (!isset($_SESSION['email']) || $_SESSION['idRole'] ==2){

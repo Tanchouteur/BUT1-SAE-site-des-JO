@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
 require_once "../../../import/BDD.php";
 
 $email = $_SESSION['email'];
@@ -14,9 +18,35 @@ if ($result['idRole'] <2){
 
 $status = "";
 if (!empty($_POST)) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     $nomEvent = $_POST["nomEvent"];
-    $lieuEvent = $_POST['lieuEvent']; // Correction ici
+    $nomEvent = trim($nomEvent);
+    $nomEvent = htmlspecialchars($nomEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($nomEvent) > 50) {
+        $nomEvent = substr($nomEvent, 0, 50);
+    }
+
+    $lieuEvent = $_POST['lieuEvent'];
+
+    $lieuEvent = trim($lieuEvent);
+    $lieuEvent = htmlspecialchars($lieuEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($lieuEvent) > 50) {
+        $lieuEvent = substr($lieuEvent, 0, 50);
+    }
+
     $descriptionEvent = $_POST["descriptionEvent"];
+
+    $descriptionEvent = trim($descriptionEvent);
+    $descriptionEvent = htmlspecialchars($descriptionEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($descriptionEvent) > 254) {
+        $descriptionEvent = substr($descriptionEvent, 0, 254);
+    }
+
     $typeEvent = $_POST["typeEvent"];
     $createurEvent = $_SESSION["email"];
     $dateEvent = $_POST["dateEvent"];
@@ -100,13 +130,13 @@ if (!empty($_POST)) {
         <?php
         if (isset($_GET['status'])&&isset($_GET['msg'])) {
             if ($_GET['status']==0) {
-                echo "<h2 style='color: #6c2401'> " . $_GET['msg'] . "</h2>";
+                echo "<h2 style='color: #6c2401'> " . htmlspecialchars($_GET['msg']) . "</h2>";
             }else if ($_GET['status']==1) {
-                echo "<h2 style='color: #016c23'> " . $_GET['msg'] . "</h2>";
+                echo "<h2 style='color: #016c23'> " . htmlspecialchars($_GET['msg']) . "</h2>";
             }
         }?>
         <form action="creeEvent.php" method="post">
-
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
             <div class="form-group">
                 <label for="nomEvent">Nom de l'évenement : </label>
                 <input type="text" id="nomEvent" name="nomEvent" required>

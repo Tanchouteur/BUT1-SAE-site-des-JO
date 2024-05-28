@@ -1,7 +1,13 @@
 <?php
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     require_once '../../import/BDD.php';
     if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $email = strtolower($_POST['email']);
@@ -75,17 +81,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="form-container"><?php
         if (isset($_GET['status'])&&isset($_GET['msg'])) {
             if ($_GET['status']==0) {
-                echo "<h1 style='color: #6c2401'> " . $_GET['msg'] . "</h1>";
+                echo "<h1 style='color: #6c2401'> " . htmlspecialchars($_GET['msg']) . "</h1>";
             }else if ($_GET['status']==1) {
-                echo "<h1 style='color: #016c23'> " . $_GET['msg'] . "</h1>";
+                echo "<h1 style='color: #016c23'> " . htmlspecialchars($_GET['msg']) . "</h1>";
             }
         }?>
         <h2>Connexion</h2>
         <form action="singin.php" method="post">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" value="<?php if(isset($_GET['email'])){ echo $_GET['email'];} ?>" required>
+                <input type="email" id="email" name="email" value="<?php if(isset($_GET['email'])){ echo htmlspecialchars($_GET['email']);} ?>" required>
             </div>
             <div class="form-group">
                 <label for="password">Mot de passe :</label>

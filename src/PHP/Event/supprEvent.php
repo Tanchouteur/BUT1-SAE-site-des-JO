@@ -6,6 +6,8 @@ $email = $_SESSION['email'];
 
 if (isset($_GET['event'])){
     $event = $_GET['event'];
+}else{
+    header('location: ../../../index.php');
 }
 
 $sql = "SELECT idRole FROM Users where email = '$email'";

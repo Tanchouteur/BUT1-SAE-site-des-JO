@@ -1,6 +1,9 @@
 <?php
 session_start();
-
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
 
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
@@ -23,14 +26,38 @@ if ($result['idRole'] <2){
 $status = "";
 
 if (!empty($_POST)) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     $nomEvent = $_POST["nomEvent"];
-    $lieuEvent = $_POST['lieuEvent']; // Correction ici
+    $nomEvent = trim($nomEvent);
+    $nomEvent = htmlspecialchars($nomEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($nomEvent) > 50) {
+        $nomEvent = substr($nomEvent, 0, 50);
+    }
+
+    $lieuEvent = $_POST['lieuEvent'];
+    $lieuEvent = trim($lieuEvent);
+    $lieuEvent = htmlspecialchars($lieuEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($lieuEvent) > 50) {
+        $lieuEvent = substr($lieuEvent, 0, 50);
+    }
+
     $descriptionEvent = $_POST["descriptionEvent"];
+    $descriptionEvent = trim($descriptionEvent);
+    $descriptionEvent = htmlspecialchars($descriptionEvent, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($descriptionEvent) > 254) {
+        $descriptionEvent = substr($descriptionEvent, 0, 254);
+    }
+
     $typeEvent = $_POST["typeEvent"];
     $createurEvent = $_SESSION["email"];
     $dateEvent = $_POST["dateEvent"];
 
-    // Combinaison des valeurs des cases à cocher
+
     $roleEvent = 0;
     if (isset($_POST['spectateur'])) {
         $roleEvent += 1;
@@ -106,6 +133,7 @@ if (!isset($result["nomEvent"])) {
 <div class="ModifierEvent">
 
     <form action="modifierEvent.php?event=<?php echo $_GET['event']?>" method="post">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
         <div class="form-group">
             <label for="nomEvent">Nom de l'évenement : </label>
@@ -138,6 +166,9 @@ if (!isset($result["nomEvent"])) {
                     echo "<option value='1'>Type 1</option>
                 <option value='2'>Type 2</option>
                 <option value='3' selected>Type 3</option>";
+                }else{
+                   echo "<option value='1'>Cérémonie</option>
+                <option value='2'>Evenement sportif</option>";
                 }
 
                 ?>
@@ -147,7 +178,7 @@ if (!isset($result["nomEvent"])) {
         </div>
 
         <div class="form-group">
-            <label for="roleEvent">Type d'évenement : </label>
+            <label for="roleEvent">Type de participant : </label>
             <?php
             if ($result['roleEvent'] == 1) {
                 echo "<div>

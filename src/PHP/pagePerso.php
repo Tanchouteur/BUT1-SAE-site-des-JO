@@ -1,10 +1,18 @@
 <?php session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
+
 require_once "../../import/BDD.php";
 
 $email = $_SESSION['email'];
 $status = "";
 if (!empty($_POST)) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $new_email = strtolower($_POST['email']);
     }else{
@@ -14,7 +22,11 @@ if (!empty($_POST)) {
     $new_pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $new_nom = $_POST["nom"];
     $new_nom = trim($new_nom); // Supprimer les espaces en début et fin
-    $new_nom = filter_var($new_nom, FILTER_SANITIZE_STRING); // Supprimer les balises HTML et autres caractères spéciaux
+    $new_nom = htmlspecialchars($new_nom, ENT_QUOTES, 'UTF-8');
+
+    if (strlen($new_nom) > 50) {
+        $new_nom = substr($new_nom, 0, 50);
+    }
 
     if(filter_var($_POST["age"], FILTER_VALIDATE_INT) !== false) {
         $new_age = $_POST["age"];
@@ -81,7 +93,7 @@ $result = $result->fetch_assoc();
 <div class="formulaire">
 
     <form action="pagePerso.php" method="post">
-
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
         <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" value="<?php echo $result['email'] ?>" required>

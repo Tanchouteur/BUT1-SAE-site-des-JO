@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 require_once "../../../import/BDD.php";
 
 $updateQuery = "

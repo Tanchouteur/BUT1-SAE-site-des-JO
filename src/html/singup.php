@@ -1,12 +1,18 @@
 <?php
 require_once '../../import/BDD.php';
 session_start();
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
 
-// Récupère les données du formulaire
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur : token CSRF invalide");
+    }
     $user = $_POST['username'];
-    $user = trim($user); // Supprimer les espaces en début et fin
-    $user = filter_var($user, FILTER_SANITIZE_STRING); // Supprimer les balises HTML et autres caractères spéciaux
+    $user = trim($user);
+    $user = filter_var($user, FILTER_SANITIZE_STRING);
 
     if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $email = strtolower($_POST['email']);
@@ -16,13 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-
-// Prépare et exécute la requête d'insertion
     $sql = "INSERT INTO Users (login, email, mdp, idRole) VALUES (?, ?, ?, ?)";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("sssi", $user, $email, $pass, $role);
-
-
 
     $sql2 = "select * from Users where email=?";
     $stmt2 = $db->prepare($sql2);
@@ -92,13 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="formulaire">
     <div class="form-container"><?php if (isset($_GET['status'])&&isset($_GET['msg'])) {
             if ($_GET['status']==0) {
-                echo "<h1 style='color: #6c2401'> " . $_GET['msg'] . "</h1>";
+                echo "<h1 style='color: #6c2401'> " . htmlspecialchars($_GET['msg']) . "</h1>";
             }else if ($_GET['status']==1) {
-                echo "<h1 style='color: #016c23'> " . $_GET['msg'] . "</h1>";
+                echo "<h1 style='color: #016c23'> " . htmlspecialchars($_GET['msg']) . "</h1>";
             }
         }?>
         <h2>Inscription</h2>
         <form action="singup.php" method="post">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
             <div class="form-group">
                 <label for="username">Nom</label>
                 <input type="text" id="username" name="username" placeholder="Utiliser pour la connexion" required>
