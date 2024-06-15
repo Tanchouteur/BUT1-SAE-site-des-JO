@@ -117,7 +117,7 @@ $result = $result->fetch_assoc();
         </div>
 
 
-        <button type="submit">S'inscrire</button>
+        <button type="submit">Sauvegarder</button>
 
     </form>
 
